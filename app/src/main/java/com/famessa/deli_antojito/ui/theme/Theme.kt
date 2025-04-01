@@ -33,6 +33,22 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+private val FamessaLightColorScheme = lightColorScheme(
+    primary = AquaLv5,
+    secondary = AquaLv4,
+    tertiary = AquaLv3,
+    background = AquaLv2,
+    surface = AquaLv1
+)
+
+private val FamessaDarkColorScheme = darkColorScheme(
+    primary = AquaLv1,
+    secondary = AquaLv2,
+    tertiary = AquaLv3,
+    background = AquaLv4,
+    surface = AquaLv5
+)
+
 @Composable
 fun Deli_antojitoTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -46,8 +62,8 @@ fun Deli_antojitoTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        darkTheme -> FamessaDarkColorScheme
+        else -> FamessaLightColorScheme
     }
 
     MaterialTheme(
