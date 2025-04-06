@@ -8,10 +8,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.famessa.deli_antojito.ui.theme.Deli_antojitoTheme
 import com.famessa.deli_antojito.views.LoginView
 import com.famessa.deli_antojito.viewModels.LoginViewModel
+import kotlin.getValue
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -27,4 +30,11 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun ApplicationPreview() {
+    val viewModel = LoginViewModel()
+    LoginView(viewModel)
 }
