@@ -12,8 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.famessa.deli_antojito.ui.theme.Deli_antojitoTheme
-import com.famessa.deli_antojito.views.LoginView
-import com.famessa.deli_antojito.viewModels.LoginViewModel
+import com.famessa.deli_antojito.views.HomeView
 import kotlin.getValue
 
 class MainActivity : ComponentActivity() {
@@ -21,11 +20,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val viewModel: LoginViewModel by viewModels()
         setContent {
             Deli_antojitoTheme(darkTheme = false) {
                 Scaffold(modifier = Modifier.fillMaxSize()) {
-                    LoginView(viewModel)
+                    HomeView()
                 }
             }
         }
@@ -35,6 +33,7 @@ class MainActivity : ComponentActivity() {
 @Preview
 @Composable
 fun ApplicationPreview() {
-    val viewModel = LoginViewModel()
-    LoginView(viewModel)
+    Deli_antojitoTheme {
+        HomeView()
+    }
 }
