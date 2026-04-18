@@ -28,7 +28,7 @@ import com.famessa.deli_antojito.data.Producto
 import com.famessa.deli_antojito.viewModels.HomeViewModel
 
 @Composable
-fun HomeView(viewModel: HomeViewModel) {
+fun HomeView(viewModel: HomeViewModel, onAdminClick: () -> Unit = {}) {
     val nombre by viewModel.nombre
     val precioBase by viewModel.precioBase
     val categoria by viewModel.categoria
@@ -43,10 +43,19 @@ fun HomeView(viewModel: HomeViewModel) {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "Gestión de Productos",
-            style = MaterialTheme.typography.headlineMedium
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Gestión de Productos",
+                style = MaterialTheme.typography.headlineMedium
+            )
+            Button(onClick = onAdminClick) {
+                Text("Admin")
+            }
+        }
 
         Spacer(modifier = Modifier.height(32.dp))
 
