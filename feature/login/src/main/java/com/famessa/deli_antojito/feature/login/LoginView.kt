@@ -1,12 +1,7 @@
-package com.famessa.deli_antojito.views
+package com.famessa.deli_antojito.feature.login
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
@@ -19,8 +14,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.famessa.deli_antojito.viewModels.LoginViewModel
-
 
 @Composable
 fun LoginView(viewModel: LoginViewModel) {
@@ -31,11 +24,10 @@ fun LoginView(viewModel: LoginViewModel) {
     val inicioSesionCorrecto by viewModel.inicioSesionCorrecto
     val ctx = LocalContext.current
 
-
     Column (
         modifier = Modifier
             .fillMaxSize()
-            .padding(5.dp),
+            .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
@@ -44,29 +36,30 @@ fun LoginView(viewModel: LoginViewModel) {
             value = usuario,
             label = { Text("Usuario") },
             onValueChange = viewModel::onUsuarioChange,
-            enabled = !cargando
+            enabled = !cargando,
+            modifier = Modifier.fillMaxWidth()
         )
+        Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(value = contrasena,
             label = { Text("Contraseña")},
             onValueChange = viewModel::onContrasenaChange,
             enabled = !cargando,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            visualTransformation = PasswordVisualTransformation()
+            visualTransformation = PasswordVisualTransformation(),
+            modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier=Modifier.weight(1f))
         Button(
             onClick = {
-                var msg = ""
                 viewModel.iniciarSesion()
-                if(inicioSesionCorrecto){
-                    msg = "Inicio de sesión correcto con las credenciales [${usuario},${contrasena}]"
+                val msg = if(inicioSesionCorrecto){
+                    "Inicio de sesión correcto"
                 } else {
-                    msg = "Inicio de sesión incorrecto con las credenciales [${usuario},${contrasena}]"
+                    "Inicio de sesión incorrecto"
                 }
                 Toast.makeText(ctx, msg, Toast.LENGTH_LONG).show()
             },
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             enabled = !cargando
         ) {
             Text("Iniciar Sesión")

@@ -1,16 +1,16 @@
-package com.famessa.deli_antojito.viewModels
+package com.famessa.deli_antojito.feature.home
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.famessa.deli_antojito.data.Entities.Producto
-import com.famessa.deli_antojito.data.Repository.ProductoRepositoryInterface
+import com.famessa.deli_antojito.domain.model.Producto
+import com.famessa.deli_antojito.domain.repository.ProductoRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class HomeViewModel(private val repository: ProductoRepositoryInterface) : ViewModel() {
+class HomeViewModel(private val repository: ProductoRepository) : ViewModel() {
 
     private val _productos = MutableStateFlow<List<Producto>>(emptyList())
     val productos: StateFlow<List<Producto>> = _productos

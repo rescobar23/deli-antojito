@@ -1,4 +1,4 @@
-package com.famessa.deli_antojito.ui.theme
+package com.famessa.deli_antojito.core.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

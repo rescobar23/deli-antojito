@@ -21,5 +21,11 @@ dependencyResolutionManagement {
 
 rootProject.name = "Delicias Güelitos"
 include(":app")
-include(":products_admin")
 include(":data")
+include(":domain")
+include(":core:ui")
+include(":core:common")
+include(":core:network")
+include(":feature:home")
+include(":feature:login")
+include(":products_admin")

@@ -1,10 +1,8 @@
-package com.famessa.deli_antojito.viewModels
+package com.famessa.deli_antojito.feature.login
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
 
 class LoginViewModel: ViewModel() {
     private val _usuario = mutableStateOf("")
@@ -27,7 +25,7 @@ class LoginViewModel: ViewModel() {
 
     fun iniciarSesion() {
         _cargando.value = true
-        //Aqui se manda la peticion para iniciar sesion
+        // Aqui se mandaría la peticion para iniciar sesion a través de un Use Case
         _cargando.value = false
         _inicioSesionCorrecto.value = _usuario.value == "admin" && _contrasena.value == "admin123"
     }
