@@ -1,10 +1,9 @@
-package com.famessa.deli_antojito.data.Entities
+package com.famessa.deli_antojito.data.entities
 
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 
 
 @Entity(tableName = "configuracion")
 data class Configuracion(
-    val nombre_negocio: string
+    val nombre_negocio: String
 )

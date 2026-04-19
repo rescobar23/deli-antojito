@@ -1,17 +1,17 @@
-package com.famessa.deli_antojito.repository
+package com.famessa.deli_antojito.data.repository
 
-import com.famessa.deli_antojito.data.DB.AppDatabase
-import com.famessa.deli_antojito.data.Entities.Producto
+import com.famessa.deli_antojito.data.db.AppDatabase
+import com.famessa.deli_antojito.data.entities.Producto
 import kotlinx.coroutines.flow.Flow
 
-interface ProductoRepositoryInterface {
+interface IProductoRepository {
     suspend fun insertProducto(producto: Producto)
     fun getAllProductos(): Flow<List<Producto>>
     suspend fun getProductoById(id: Long): Producto?
     suspend fun deleteProducto(id: Long)
 }
 
-class ProductoRepository(private val database: AppDatabase) : ProductoRepositoryInterface {
+class ProductoRepository(private val database: AppDatabase) : IProductoRepository {
 
     private val productoDao = database.productoDao()
 

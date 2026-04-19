@@ -1,4 +1,5 @@
-package com.famessa.deli_antojito.data
+package com.famessa.deli_antojito.data.entities
+
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

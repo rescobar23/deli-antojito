@@ -1,10 +1,10 @@
-package com.famessa.deli_antojito.data
+package com.famessa.deli_antojito.data.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import com.famessa.deli_antojito.data.Entities
+import com.famessa.deli_antojito.data.entities.Producto
 
 @Dao
 interface ProductoDao {

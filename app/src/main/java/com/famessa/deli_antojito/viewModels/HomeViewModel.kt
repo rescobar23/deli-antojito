@@ -4,8 +4,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.famessa.deli_antojito.data.Producto
-import com.famessa.deli_antojito.repository.ProductoRepositoryInterface
+import com.famessa.deli_antojito.data.Entities.Producto
+import com.famessa.deli_antojito.data.Repository.ProductoRepositoryInterface
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

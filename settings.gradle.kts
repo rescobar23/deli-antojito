@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "Delicias Güelitos"
 include(":app")
 include(":products_admin")
+include(":data")

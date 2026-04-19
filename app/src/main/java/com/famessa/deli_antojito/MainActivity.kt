@@ -13,9 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.room.Room
-import com.famessa.deli_antojito.data.AppDatabase
-import com.famessa.deli_antojito.repository.ProductoRepository
-import com.famessa.deli_antojito.repository.ProductoRepositoryInterface
+import com.famessa.deli_antojito.data.db.AppDatabase
+import com.famessa.deli_antojito.data.repository.ProductoRepository
+import com.famessa.deli_antojito.data.repository.ProductoRepositoryInterface
 import com.famessa.deli_antojito.ui.theme.Deli_antojitoTheme
 import com.famessa.deli_antojito.viewModels.HomeViewModel
 import com.famessa.deli_antojito.viewModels.HomeViewModelFactory
@@ -61,15 +61,15 @@ fun ApplicationPreview() {
     Deli_antojitoTheme {
         // Para preview, creamos un ViewModel con un repositorio mock
         val mockRepository = object : ProductoRepositoryInterface {
-            override suspend fun insertProducto(producto: com.famessa.deli_antojito.data.Producto) {
+            override suspend fun insertProducto(producto: com.famessa.deli_antojito.data.entities.Producto) {
                 // Mock implementation
             }
 
-            override fun getAllProductos(): kotlinx.coroutines.flow.Flow<List<com.famessa.deli_antojito.data.Producto>> {
+            override fun getAllProductos(): kotlinx.coroutines.flow.Flow<List<com.famessa.deli_antojito.data.entities.Producto>> {
                 return kotlinx.coroutines.flow.flowOf(emptyList())
             }
 
-            override suspend fun getProductoById(id: Long): com.famessa.deli_antojito.data.Producto? {
+            override suspend fun getProductoById(id: Long): com.famessa.deli_antojito.data.entities.Producto? {
                 return null
             }
 
