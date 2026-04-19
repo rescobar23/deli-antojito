@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
+import com.famessa.deli_antojito.data.Entities
 
 @Dao
 interface ProductoDao {

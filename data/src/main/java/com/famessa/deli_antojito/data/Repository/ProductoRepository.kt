@@ -1,7 +1,7 @@
 package com.famessa.deli_antojito.repository
 
-import com.famessa.deli_antojito.data.AppDatabase
-import com.famessa.deli_antojito.data.Producto
+import com.famessa.deli_antojito.data.DB.AppDatabase
+import com.famessa.deli_antojito.data.Entities.Producto
 import kotlinx.coroutines.flow.Flow
 
 interface ProductoRepositoryInterface {
