@@ -8,18 +8,15 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.room.Room
+import com.famessa.deli_antojito.core.ui.theme.Deli_antojitoTheme
 import com.famessa.deli_antojito.data.db.AppDatabase
-import com.famessa.deli_antojito.data.repository.ProductoRepository
-import com.famessa.deli_antojito.data.repository.ProductoRepositoryInterface
-import com.famessa.deli_antojito.ui.theme.Deli_antojitoTheme
-import com.famessa.deli_antojito.viewModels.HomeViewModel
-import com.famessa.deli_antojito.viewModels.HomeViewModelFactory
-import com.famessa.deli_antojito.views.HomeView
+import com.famessa.deli_antojito.data.repository.ProductoRepositoryImpl
+import com.famessa.deli_antojito.feature.home.HomeView
+import com.famessa.deli_antojito.feature.home.HomeViewModel
+import com.famessa.deli_antojito.feature.home.HomeViewModelFactory
 import com.famessa.products_admin.ProductsAdminActivity
 
 class MainActivity : ComponentActivity() {
@@ -35,8 +32,8 @@ class MainActivity : ComponentActivity() {
             "deli_antojito_db"
         ).build()
 
-        // Crear repositorio
-        val repository: ProductoRepositoryInterface = ProductoRepository(database)
+        // Crear repositorio usando la implementación de data
+        val repository = ProductoRepositoryImpl(database)
 
         setContent {
             Deli_antojitoTheme(darkTheme = false) {
@@ -52,32 +49,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-}
-
-@Preview
-@Composable
-fun ApplicationPreview() {
-    Deli_antojitoTheme {
-        // Para preview, creamos un ViewModel con un repositorio mock
-        val mockRepository = object : ProductoRepositoryInterface {
-            override suspend fun insertProducto(producto: com.famessa.deli_antojito.data.entities.Producto) {
-                // Mock implementation
-            }
-
-            override fun getAllProductos(): kotlinx.coroutines.flow.Flow<List<com.famessa.deli_antojito.data.entities.Producto>> {
-                return kotlinx.coroutines.flow.flowOf(emptyList())
-            }
-
-            override suspend fun getProductoById(id: Long): com.famessa.deli_antojito.data.entities.Producto? {
-                return null
-            }
-
-            override suspend fun deleteProducto(id: Long) {
-                // Mock implementation
-            }
-        }
-        val viewModel = HomeViewModel(mockRepository)
-        HomeView(viewModel)
     }
 }
