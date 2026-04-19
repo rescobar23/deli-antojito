@@ -43,10 +43,10 @@ android {
 dependencies {
     implementation(project(":feature:home"))
     implementation(project(":feature:login"))
+    implementation(project(":feature:products"))
     implementation(project(":core:ui"))
     implementation(project(":data"))
     implementation(project(":domain"))
-    implementation(project(":products_admin"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)

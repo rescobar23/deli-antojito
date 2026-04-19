@@ -6,7 +6,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -17,7 +19,7 @@ import com.famessa.deli_antojito.data.repository.ProductoRepositoryImpl
 import com.famessa.deli_antojito.feature.home.HomeView
 import com.famessa.deli_antojito.feature.home.HomeViewModel
 import com.famessa.deli_antojito.feature.home.HomeViewModelFactory
-import com.famessa.products_admin.ProductsAdminActivity
+import com.famessa.feature.products.ProductsAdminActivity
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -37,15 +39,16 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             Deli_antojitoTheme(darkTheme = false) {
-                Scaffold(modifier = Modifier.fillMaxSize()) {
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     val viewModel: HomeViewModel = viewModel(factory = HomeViewModelFactory(repository))
-                    HomeView(
-                        viewModel = viewModel,
-                        onAdminClick = {
-                            val intent = Intent(this, ProductsAdminActivity::class.java)
-                            startActivity(intent)
-                        }
-                    )
+                    Box(modifier = Modifier.padding(innerPadding)) {
+                        HomeView(
+                            onAdminClick = {
+                                val intent = Intent(this@MainActivity, ProductsAdminActivity::class.java)
+                                startActivity(intent)
+                            }
+                        )
+                    }
                 }
             }
         }

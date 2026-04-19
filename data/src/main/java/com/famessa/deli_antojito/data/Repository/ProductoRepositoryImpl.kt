@@ -16,6 +16,10 @@ class ProductoRepositoryImpl(private val database: AppDatabase) : ProductoReposi
         productoDao.insertProducto(producto.toEntity())
     }
 
+    override suspend fun updateProducto(producto: Producto) {
+        productoDao.updateProducto(producto.toEntity())
+    }
+
     override fun getAllProductos(): Flow<List<Producto>> {
         return productoDao.getAllProductos().map { entities ->
             entities.map { it.toDomain() }

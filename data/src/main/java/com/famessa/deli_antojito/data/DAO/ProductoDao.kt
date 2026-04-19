@@ -1,8 +1,6 @@
 package com.famessa.deli_antojito.data.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import com.famessa.deli_antojito.data.entities.Producto
 
@@ -16,6 +14,9 @@ interface ProductoDao {
 
     @Query("SELECT * FROM productos WHERE id = :id")
     suspend fun getProductoById(id: Long): Producto?
+
+    @Update
+    suspend fun updateProducto(producto: Producto)
 
     @Query("DELETE FROM productos WHERE id = :id")
     suspend fun deleteProducto(id: Long)
