@@ -1,7 +1,6 @@
 package com.famessa.deli_antojito
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,7 +18,7 @@ import com.famessa.deli_antojito.data.repository.ProductoRepositoryImpl
 import com.famessa.deli_antojito.feature.home.HomeView
 import com.famessa.deli_antojito.feature.home.HomeViewModel
 import com.famessa.deli_antojito.feature.home.HomeViewModelFactory
-import com.famessa.feature.products.ProductsAdminActivity
+// import com.famessa.feature.products.ProductsAdminActivity
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -40,12 +39,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             Deli_antojitoTheme(darkTheme = false) {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    val viewModel: HomeViewModel = viewModel(factory = HomeViewModelFactory(repository))
                     Box(modifier = Modifier.padding(innerPadding)) {
                         HomeView(
                             onAdminClick = {
-                                val intent = Intent(this@MainActivity, ProductsAdminActivity::class.java)
-                                startActivity(intent)
+                                // TODO: Implementar ProductsAdminActivity
+                                // val intent = Intent(this@MainActivity, ProductsAdminActivity::class.java)
+                                // startActivity(intent)
                             }
                         )
                     }
