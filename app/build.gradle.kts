@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -37,13 +38,17 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
 dependencies {
     implementation(project(":feature:home"))
     implementation(project(":feature:login"))
+    implementation(project(":feature:profile"))
     implementation(project(":core:ui"))
+    implementation(project(":core:network"))
+    implementation(project(":core:common"))
     implementation(project(":data"))
     implementation(project(":domain"))
     implementation(libs.androidx.core.ktx)
@@ -57,6 +62,10 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.timber)
+    kapt(libs.hilt.compiler)
     kapt(libs.androidx.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

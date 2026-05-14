@@ -1,29 +1,17 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.hilt)
 }
 
 android {
-	namespace = "com.famessa.deli_antojito.data"
-	compileSdk = 35
+    namespace = "com.famessa.deli_antojito.feature.profile"
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 25
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
     }
 
     compileOptions {
@@ -33,17 +21,26 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildFeatures {
+        compose = true
+    }
 }
 
 dependencies {
     implementation(project(":domain"))
-    implementation(project(":core:network"))
+    implementation(project(":core:ui"))
     implementation(project(":core:common"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
     implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.timber)
+    implementation(libs.coil.compose)
     kapt(libs.hilt.compiler)
-    kapt(libs.androidx.room.compiler)
 }

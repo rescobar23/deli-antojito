@@ -21,6 +21,6 @@ android {
 }
 
 dependencies {
-    // Domain should ideally be pure Kotlin, but we use android-library for consistency in multi-module
-    implementation(libs.androidx.core.ktx)
+    // Domain should be pure Kotlin, avoiding Android dependencies
+    implementation(libs.kotlinx.coroutines.core)
 }

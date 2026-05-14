@@ -6,11 +6,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.famessa.deli_antojito.domain.model.Producto
 import com.famessa.deli_antojito.domain.repository.ProductoRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel(private val repository: ProductoRepository) : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val repository: ProductoRepository
+) : ViewModel() {
 
     private val _productos = MutableStateFlow<List<Producto>>(emptyList())
     val productos: StateFlow<List<Producto>> = _productos

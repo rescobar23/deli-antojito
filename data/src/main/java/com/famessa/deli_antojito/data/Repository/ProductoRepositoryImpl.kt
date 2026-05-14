@@ -1,16 +1,17 @@
 package com.famessa.deli_antojito.data.repository
 
-import com.famessa.deli_antojito.data.db.AppDatabase
+import com.famessa.deli_antojito.data.dao.ProductoDao
 import com.famessa.deli_antojito.data.mappers.toDomain
 import com.famessa.deli_antojito.data.mappers.toEntity
 import com.famessa.deli_antojito.domain.model.Producto
 import com.famessa.deli_antojito.domain.repository.ProductoRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class ProductoRepositoryImpl(private val database: AppDatabase) : ProductoRepository {
-
-    private val productoDao = database.productoDao()
+class ProductoRepositoryImpl @Inject constructor(
+    private val productoDao: ProductoDao
+) : ProductoRepository {
 
     override suspend fun insertProducto(producto: Producto) {
         productoDao.insertProducto(producto.toEntity())

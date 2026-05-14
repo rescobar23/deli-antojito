@@ -3,8 +3,11 @@ package com.famessa.deli_antojito.feature.login
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class LoginViewModel: ViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor(): ViewModel() {
     private val _usuario = mutableStateOf("")
     private val _contrasena = mutableStateOf("")
     private val _cargando = mutableStateOf(false)

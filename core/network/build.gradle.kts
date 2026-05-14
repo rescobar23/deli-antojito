@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -22,4 +24,11 @@ android {
 
 dependencies {
     implementation(libs.androidx.core.ktx)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.moshi)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.hilt.android)
+    implementation(libs.timber)
+    kapt(libs.hilt.compiler)
 }

@@ -7,6 +7,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,15 +15,25 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
-fun LoginView(viewModel: LoginViewModel) {
+fun LoginView(
+    onLoginSuccess: () -> Unit,
+    viewModel: LoginViewModel = hiltViewModel()
+) {
 
     val usuario by viewModel.usuario
     val contrasena by viewModel.contrasena
     val cargando by viewModel.cargando
     val inicioSesionCorrecto by viewModel.inicioSesionCorrecto
     val ctx = LocalContext.current
+
+    LaunchedEffect(inicioSesionCorrecto) {
+        if (inicioSesionCorrecto) {
+            onLoginSuccess()
+        }
+    }
 
     Column (
         modifier = Modifier
