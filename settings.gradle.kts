@@ -19,5 +19,11 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "deli_antojito"
+rootProject.name = "Delicias Güelitos"
 include(":app")
+include(":data")
+include(":domain")
+include(":core:ui")
+include(":core:common")
+include(":core:network")
+include(":feature:home")
