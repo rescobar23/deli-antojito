@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
 }
 
@@ -40,12 +40,18 @@ android {
         compose = true
         buildConfig = true
     }
+    packaging {
+        jniLibs {
+            keepDebugSymbols += "**/libandroidx.graphics.path.so"
+        }
+    }
+    lint {
+        disable += setOf("AndroidGradlePluginVersion", "GradleDependency")
+    }
 }
 
 dependencies {
     implementation(project(":feature:home"))
-    implementation(project(":feature:login"))
-    implementation(project(":feature:profile"))
     implementation(project(":core:ui"))
     implementation(project(":core:network"))
     implementation(project(":core:common"))
@@ -60,13 +66,9 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
     implementation(libs.hilt.android)
-    implementation(libs.androidx.navigation.compose)
     implementation(libs.timber)
-    kapt(libs.hilt.compiler)
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.hilt.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
