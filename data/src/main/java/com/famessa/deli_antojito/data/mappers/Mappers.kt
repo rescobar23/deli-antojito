@@ -21,10 +21,14 @@ fun Producto.toEntity() = ProductoEntity(
 
 fun ConfiguracionEntity.toDomain() = Configuracion(
     id = id,
-    nombreNegocio = nombre_negocio
+    nombreNegocio = nombreNegocio,
+    createdAt = createdAt,
+    updatedAt = updatedAt
 )
 
 fun Configuracion.toEntity() = ConfiguracionEntity(
     id = id,
-    nombre_negocio = nombreNegocio
+    nombreNegocio = nombreNegocio,
+    createdAt = createdAt,
+    updatedAt = updatedAt
 )

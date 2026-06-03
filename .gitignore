@@ -14,3 +14,11 @@
 .cxx
 local.properties
 /.vscode
+out/
+*.class
+*.jar
+*.log
+.env*
+Thumbs.db
+*.tmp
+*.swp
