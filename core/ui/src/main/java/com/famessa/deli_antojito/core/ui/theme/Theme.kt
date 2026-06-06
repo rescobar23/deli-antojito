@@ -12,10 +12,16 @@ import androidx.compose.ui.platform.LocalContext
 
 private val FamessaLightColorScheme = lightColorScheme(
     primary = AquaLv5,
+    onPrimary = AquaMist,
     secondary = AquaLv4,
-    tertiary = AquaLv3,
-    background = AquaLv2,
-    surface = AquaLv1
+    onSecondary = AquaMist,
+    tertiary = AquaAccent,
+    background = AquaMist,
+    onBackground = AquaDeep,
+    surface = AquaSurface,
+    onSurface = AquaDeep,
+    primaryContainer = AquaChip,
+    onPrimaryContainer = AquaDeep
 )
 
 private val FamessaDarkColorScheme = darkColorScheme(
@@ -30,7 +36,7 @@ private val FamessaDarkColorScheme = darkColorScheme(
 fun Deli_antojitoTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
