@@ -1,5 +1,6 @@
 package com.famessa.deli_antojito.feature.home
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -62,12 +63,15 @@ fun HomeView(
     )
 }
 
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun HomeContent(
     businessName: String,
     onAdminClick: () -> Unit = {}
 ) {
-    val displayName = if (businessName.isBlank()) "Deli Antojito" else businessName
+    val displayName = businessName.ifBlank {
+        "Deli Antojito"
+    }
 
     Box(
         modifier = Modifier
@@ -87,7 +91,7 @@ fun HomeContent(
         )
 
         Column(modifier = Modifier.fillMaxSize()) {
-            HomeTopBar()
+            //HomeTopBar()
 
             BoxWithConstraints(
                 modifier = Modifier
@@ -113,13 +117,13 @@ fun HomeContent(
                         textAlign = TextAlign.Center,
                         modifier = Modifier.testTag("home_business_name")
                     )
-                    Text(
+                    /*Text(
                         text = "Gestión inteligente, producción eficiente.",
                         color = AquaDeep,
                         style = MaterialTheme.typography.titleMedium,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(top = 6.dp)
-                    )
+                    )*/
 
                     Spacer(modifier = Modifier.height(34.dp))
                     Text(
@@ -129,13 +133,13 @@ fun HomeContent(
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center
                     )
-                    Text(
-                        text = "Administra tu negocio de forma fácil y eficiente\ndesde un solo lugar.",
+                    /*Text(
+                        text = "Administra tu negocio de forma fácil y eficiente\n desde un solo lugar.",
                         color = AquaDeep.copy(alpha = 0.86f),
                         style = MaterialTheme.typography.bodyLarge,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(top = 10.dp)
-                    )
+                    )*/
 
                     Spacer(modifier = Modifier.height(34.dp))
                     ModuleGrid(
@@ -175,14 +179,14 @@ private fun ModuleGrid(
         Row(horizontalArrangement = Arrangement.spacedBy(cardSpacing)) {
             ModuleCard(
                 title = "Pedidos",
-                description = "Gestiona y consulta\nlos pedidos.",
+                description = "",
                 icon = ModuleIconType.Orders,
                 onClick = null,
                 modifier = Modifier.weight(1f)
             )
             ModuleCard(
                 title = "Productos",
-                description = "Administra tu catálogo\nde productos.",
+                description = "",
                 icon = ModuleIconType.Products,
                 onClick = null,
                 modifier = Modifier.weight(1f)
@@ -191,14 +195,14 @@ private fun ModuleGrid(
         Row(horizontalArrangement = Arrangement.spacedBy(cardSpacing)) {
             ModuleCard(
                 title = "Cierre de venta",
-                description = "Realiza el cierre\nde lote.",
+                description = "",
                 icon = ModuleIconType.CloseSale,
                 onClick = null,
                 modifier = Modifier.weight(1f)
             )
             ModuleCard(
                 title = "Configuración",
-                description = "Ajustes del negocio\ny preferencias.",
+                description = "",
                 icon = ModuleIconType.Settings,
                 onClick = onAdminClick,
                 modifier = Modifier
