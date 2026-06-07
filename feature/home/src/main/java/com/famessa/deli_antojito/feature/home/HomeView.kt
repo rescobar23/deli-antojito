@@ -53,13 +53,15 @@ import com.famessa.deli_antojito.core.ui.theme.AquaSurface
 @Composable
 fun HomeView(
     onAdminClick: () -> Unit = {},
+    onProductClick: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val businessName by viewModel.businessName.collectAsState()
 
     HomeContent(
         businessName = businessName,
-        onAdminClick = onAdminClick
+        onAdminClick = onAdminClick,
+        onProductClick = onProductClick
     )
 }
 
@@ -67,7 +69,8 @@ fun HomeView(
 @Composable
 fun HomeContent(
     businessName: String,
-    onAdminClick: () -> Unit = {}
+    onAdminClick: () -> Unit = {},
+    onProductClick: () -> Unit = {}
 ) {
     val displayName = businessName.ifBlank {
         "Deli Antojito"
@@ -144,7 +147,8 @@ fun HomeContent(
                     Spacer(modifier = Modifier.height(34.dp))
                     ModuleGrid(
                         cardSpacing = cardSpacing,
-                        onAdminClick = onAdminClick
+                        onAdminClick = onAdminClick,
+                        onProductClick = onProductClick
                     )
                 }
             }
@@ -173,7 +177,8 @@ private fun HomeTopBar() {
 @Composable
 private fun ModuleGrid(
     cardSpacing: androidx.compose.ui.unit.Dp,
-    onAdminClick: () -> Unit
+    onAdminClick: () -> Unit,
+    onProductClick: () -> Unit
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(cardSpacing)) {
         Row(horizontalArrangement = Arrangement.spacedBy(cardSpacing)) {
@@ -188,8 +193,10 @@ private fun ModuleGrid(
                 title = "Productos",
                 description = "",
                 icon = ModuleIconType.Products,
-                onClick = null,
-                modifier = Modifier.weight(1f)
+                onClick = onProductClick,
+                modifier = Modifier
+                    .weight(1f)
+                    .testTag("home_products_button")
             )
         }
         Row(horizontalArrangement = Arrangement.spacedBy(cardSpacing)) {

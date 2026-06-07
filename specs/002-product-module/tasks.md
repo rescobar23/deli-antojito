@@ -18,13 +18,13 @@
 
 **Purpose**: Create the product feature module and wire project structure.
 
-- [ ] T001 Add `:feature:product` to `settings.gradle.kts`
-- [ ] T002 Create product feature Gradle module configuration in `feature/product/build.gradle.kts`
-- [ ] T003 [P] Create product feature source directory in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/`
-- [ ] T004 [P] Create product feature unit test directory in `feature/product/src/test/java/com/famessa/deli_antojito/feature/product/`
-- [ ] T005 [P] Create product feature android test directory in `feature/product/src/androidTest/java/com/famessa/deli_antojito/feature/product/`
-- [ ] T006 Add `implementation(project(":feature:product"))` to `app/build.gradle.kts`
-- [ ] T007 [P] Add product module README with scope and route notes in `feature/product/README.md`
+- [X] T001 Add `:feature:product` to `settings.gradle.kts`
+- [X] T002 Create product feature Gradle module configuration in `feature/product/build.gradle.kts`
+- [X] T003 [P] Create product feature source directory in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/`
+- [X] T004 [P] Create product feature unit test directory in `feature/product/src/test/java/com/famessa/deli_antojito/feature/product/`
+- [X] T005 [P] Create product feature android test directory in `feature/product/src/androidTest/java/com/famessa/deli_antojito/feature/product/`
+- [X] T006 Add `implementation(project(":feature:product"))` to `app/build.gradle.kts`
+- [X] T007 [P] Add product module README with scope and route notes in `feature/product/README.md`
 
 ---
 
@@ -34,18 +34,18 @@
 
 **CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T008 [P] Add product validation result model in `domain/src/main/java/com/famessa/deli_antojito/domain/model/ProductoValidationResult.kt`
-- [ ] T009 Update product domain model fields and KDoc in `domain/src/main/java/com/famessa/deli_antojito/domain/model/Producto.kt`
-- [ ] T010 Update product repository contract with observe, get, save, name availability, and physical delete APIs in `domain/src/main/java/com/famessa/deli_antojito/domain/repository/ProductoRepository.kt`
-- [ ] T011 [P] Add validate product use case in `domain/src/main/java/com/famessa/deli_antojito/domain/usecase/producto/ValidateProductoUseCase.kt`
-- [ ] T012 [P] Add product save result model in `domain/src/main/java/com/famessa/deli_antojito/domain/model/ProductoSaveResult.kt`
-- [ ] T013 [P] Add product delete result model in `domain/src/main/java/com/famessa/deli_antojito/domain/model/ProductoDeleteResult.kt`
-- [ ] T014 Update Room product entity fields, indices, and KDoc in `data/src/main/java/com/famessa/deli_antojito/data/Entities/Producto.kt`
-- [ ] T015 Update product mappers for `img` and `activo` in `data/src/main/java/com/famessa/deli_antojito/data/mappers/Mappers.kt`
-- [ ] T016 Update product DAO queries for list ordering, id lookup, normalized-name lookup, upsert behavior, and delete in `data/src/main/java/com/famessa/deli_antojito/data/DAO/ProductoDao.kt`
-- [ ] T017 Add Room migration for existing `productos` schema in `data/src/main/java/com/famessa/deli_antojito/data/DB/AppDatabase.kt`
-- [ ] T018 Update product repository implementation for explicit result handling and duplicate-name guard in `data/src/main/java/com/famessa/deli_antojito/data/Repository/ProductoRepositoryImpl.kt`
-- [ ] T019 Add product use case Hilt bindings/providers in `app/src/main/java/com/famessa/deli_antojito/di/ProductoUseCaseModule.kt`
+- [X] T008 [P] Add product validation result model in `domain/src/main/java/com/famessa/deli_antojito/domain/model/ProductoValidationResult.kt`
+- [X] T009 Update product domain model fields and KDoc in `domain/src/main/java/com/famessa/deli_antojito/domain/model/Producto.kt`
+- [X] T010 Update product repository contract with observe, get, save, name availability, and physical delete APIs in `domain/src/main/java/com/famessa/deli_antojito/domain/repository/ProductoRepository.kt`
+- [X] T011 [P] Add validate product use case in `domain/src/main/java/com/famessa/deli_antojito/domain/usecase/producto/ValidateProductoUseCase.kt`
+- [X] T012 [P] Add product save result model in `domain/src/main/java/com/famessa/deli_antojito/domain/model/ProductoSaveResult.kt`
+- [X] T013 [P] Add product delete result model in `domain/src/main/java/com/famessa/deli_antojito/domain/model/ProductoDeleteResult.kt`
+- [X] T014 Update Room product entity fields, indices, and KDoc in `data/src/main/java/com/famessa/deli_antojito/data/Entities/Producto.kt`
+- [X] T015 Update product mappers for `img` and `activo` in `data/src/main/java/com/famessa/deli_antojito/data/mappers/Mappers.kt`
+- [X] T016 Update product DAO queries for list ordering, id lookup, normalized-name lookup, upsert behavior, and delete in `data/src/main/java/com/famessa/deli_antojito/data/DAO/ProductoDao.kt`
+- [X] T017 Add Room migration for existing `productos` schema in `data/src/main/java/com/famessa/deli_antojito/data/DB/AppDatabase.kt`
+- [X] T018 Update product repository implementation for explicit result handling and duplicate-name guard in `data/src/main/java/com/famessa/deli_antojito/data/Repository/ProductoRepositoryImpl.kt`
+- [X] T019 Add product use case Hilt bindings/providers in `app/src/main/java/com/famessa/deli_antojito/di/ProductoUseCaseModule.kt`
 
 **Checkpoint**: Foundation ready. Stories can now be implemented and tested.
 
@@ -59,22 +59,22 @@
 
 ### Tests for User Story 1
 
-- [ ] T020 [P] [US1] Add product validation unit tests for listing-safe model defaults in `domain/src/test/java/com/famessa/deli_antojito/domain/usecase/producto/ValidateProductoUseCaseTest.kt`
-- [ ] T021 [P] [US1] Add DAO list and summary fixture tests in `data/src/androidTest/java/com/famessa/deli_antojito/data/DAO/ProductoDaoTest.kt`
-- [ ] T022 [P] [US1] Add repository observe-products tests in `data/src/test/java/com/famessa/deli_antojito/data/Repository/ProductoRepositoryImplTest.kt`
-- [ ] T023 [P] [US1] Add ProductViewModel loading, empty, loaded, and error state tests in `feature/product/src/test/java/com/famessa/deli_antojito/feature/product/ProductViewModelTest.kt`
-- [ ] T024 [P] [US1] Add product list Compose UI tests for empty and loaded states in `feature/product/src/androidTest/java/com/famessa/deli_antojito/feature/product/ProductListScreenTest.kt`
+- [X] T020 [P] [US1] Add product validation unit tests for listing-safe model defaults in `domain/src/test/java/com/famessa/deli_antojito/domain/usecase/producto/ValidateProductoUseCaseTest.kt`
+- [X] T021 [P] [US1] Add DAO list and summary fixture tests in `data/src/androidTest/java/com/famessa/deli_antojito/data/DAO/ProductoDaoTest.kt`
+- [X] T022 [P] [US1] Add repository observe-products tests in `data/src/test/java/com/famessa/deli_antojito/data/Repository/ProductoRepositoryImplTest.kt`
+- [X] T023 [P] [US1] Add ProductViewModel loading, empty, loaded, and error state tests in `feature/product/src/test/java/com/famessa/deli_antojito/feature/product/ProductViewModelTest.kt`
+- [X] T024 [P] [US1] Add product list Compose UI tests for empty and loaded states in `feature/product/src/androidTest/java/com/famessa/deli_antojito/feature/product/ProductListScreenTest.kt`
 
 ### Implementation for User Story 1
 
-- [ ] T025 [P] [US1] Add observe products use case in `domain/src/main/java/com/famessa/deli_antojito/domain/usecase/producto/ObserveProductosUseCase.kt`
-- [ ] T026 [P] [US1] Add product list summary model in `domain/src/main/java/com/famessa/deli_antojito/domain/model/ProductListSummary.kt`
-- [ ] T027 [US1] Implement product list UI state and test tags in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductUiState.kt`
-- [ ] T028 [US1] Implement ProductViewModel list observation and summary calculation in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductViewModel.kt`
-- [ ] T029 [US1] Implement ProductListScreen with summary, empty state, rows, placeholder image, and retry UI in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductListScreen.kt`
-- [ ] T030 [US1] Implement ProductListRoute collecting state and callbacks in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductListRoute.kt`
-- [ ] T031 [US1] Add product module entry navigation from home to product list in `feature/home/src/main/java/com/famessa/deli_antojito/feature/home/HomeView.kt`
-- [ ] T032 [US1] Wire product list route into app composition in `app/src/main/java/com/famessa/deli_antojito/MainActivity.kt`
+- [X] T025 [P] [US1] Add observe products use case in `domain/src/main/java/com/famessa/deli_antojito/domain/usecase/producto/ObserveProductosUseCase.kt`
+- [X] T026 [P] [US1] Add product list summary model in `domain/src/main/java/com/famessa/deli_antojito/domain/model/ProductListSummary.kt`
+- [X] T027 [US1] Implement product list UI state and test tags in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductUiState.kt`
+- [X] T028 [US1] Implement ProductViewModel list observation and summary calculation in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductViewModel.kt`
+- [X] T029 [US1] Implement ProductListScreen with summary, empty state, rows, placeholder image, and retry UI in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductListScreen.kt`
+- [X] T030 [US1] Implement ProductListRoute collecting state and callbacks in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductListRoute.kt`
+- [X] T031 [US1] Add product module entry navigation from home to product list in `feature/home/src/main/java/com/famessa/deli_antojito/feature/home/HomeView.kt`
+- [X] T032 [US1] Wire product list route into app composition in `app/src/main/java/com/famessa/deli_antojito/MainActivity.kt`
 
 **Checkpoint**: MVP complete. Product list is independently functional and testable.
 
@@ -88,22 +88,22 @@
 
 ### Tests for User Story 2
 
-- [ ] T033 [P] [US2] Add product validation tests for required name, max length, positive price, duplicate name, image type, and image size in `domain/src/test/java/com/famessa/deli_antojito/domain/usecase/producto/ValidateProductoUseCaseTest.kt`
-- [ ] T034 [P] [US2] Add DAO insert and duplicate-name lookup tests in `data/src/androidTest/java/com/famessa/deli_antojito/data/DAO/ProductoDaoTest.kt`
-- [ ] T035 [P] [US2] Add repository create-product success and failure tests in `data/src/test/java/com/famessa/deli_antojito/data/Repository/ProductoRepositoryImplTest.kt`
-- [ ] T036 [P] [US2] Add ProductEditViewModel create, validation, save-error, and active-default tests in `feature/product/src/test/java/com/famessa/deli_antojito/feature/product/ProductEditViewModelTest.kt`
-- [ ] T037 [P] [US2] Add add-product Compose UI tests for form validation and successful save in `feature/product/src/androidTest/java/com/famessa/deli_antojito/feature/product/ProductEditScreenTest.kt`
+- [X] T033 [P] [US2] Add product validation tests for required name, max length, positive price, duplicate name, image type, and image size in `domain/src/test/java/com/famessa/deli_antojito/domain/usecase/producto/ValidateProductoUseCaseTest.kt`
+- [X] T034 [P] [US2] Add DAO insert and duplicate-name lookup tests in `data/src/androidTest/java/com/famessa/deli_antojito/data/DAO/ProductoDaoTest.kt`
+- [X] T035 [P] [US2] Add repository create-product success and failure tests in `data/src/test/java/com/famessa/deli_antojito/data/Repository/ProductoRepositoryImplTest.kt`
+- [X] T036 [P] [US2] Add ProductEditViewModel create, validation, save-error, and active-default tests in `feature/product/src/test/java/com/famessa/deli_antojito/feature/product/ProductEditViewModelTest.kt`
+- [X] T037 [P] [US2] Add add-product Compose UI tests for form validation and successful save in `feature/product/src/androidTest/java/com/famessa/deli_antojito/feature/product/ProductEditScreenTest.kt`
 
 ### Implementation for User Story 2
 
-- [ ] T038 [P] [US2] Add save product use case in `domain/src/main/java/com/famessa/deli_antojito/domain/usecase/producto/SaveProductoUseCase.kt`
-- [ ] T039 [P] [US2] Add normalized product-name availability use case in `domain/src/main/java/com/famessa/deli_antojito/domain/usecase/producto/ValidateProductoNameAvailabilityUseCase.kt`
-- [ ] T040 [US2] Implement create-product path in repository in `data/src/main/java/com/famessa/deli_antojito/data/Repository/ProductoRepositoryImpl.kt`
-- [ ] T041 [US2] Implement product edit UI form state and validation messages in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductUiState.kt`
-- [ ] T042 [US2] Implement ProductEditViewModel create mode, image validation, save flow, and dirty-state tracking in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductEditViewModel.kt`
-- [ ] T043 [US2] Implement ProductEditScreen add mode with image picker entry point, name, price, active selector, validation messages, discard confirmation, and save button in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductEditScreen.kt`
-- [ ] T044 [US2] Implement ProductEditRoute create mode navigation callbacks in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductEditRoute.kt`
-- [ ] T045 [US2] Connect ProductListScreen add action to ProductEditRoute create mode in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductListRoute.kt`
+- [X] T038 [P] [US2] Add save product use case in `domain/src/main/java/com/famessa/deli_antojito/domain/usecase/producto/SaveProductoUseCase.kt`
+- [X] T039 [P] [US2] Add normalized product-name availability use case in `domain/src/main/java/com/famessa/deli_antojito/domain/usecase/producto/ValidateProductoNameAvailabilityUseCase.kt`
+- [X] T040 [US2] Implement create-product path in repository in `data/src/main/java/com/famessa/deli_antojito/data/Repository/ProductoRepositoryImpl.kt`
+- [X] T041 [US2] Implement product edit UI form state and validation messages in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductUiState.kt`
+- [X] T042 [US2] Implement ProductEditViewModel create mode, image validation, save flow, and dirty-state tracking in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductEditViewModel.kt`
+- [X] T043 [US2] Implement ProductEditScreen add mode with image picker entry point, name, price, active selector, validation messages, discard confirmation, and save button in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductEditScreen.kt`
+- [X] T044 [US2] Implement ProductEditRoute create mode navigation callbacks in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductEditRoute.kt`
+- [X] T045 [US2] Connect ProductListScreen add action to ProductEditRoute create mode in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductListRoute.kt`
 
 **Checkpoint**: Add-product flow works independently and updates the product list.
 
@@ -117,19 +117,19 @@
 
 ### Tests for User Story 3
 
-- [ ] T046 [P] [US3] Add get-product and edit validation use case tests in `domain/src/test/java/com/famessa/deli_antojito/domain/usecase/producto/SaveProductoUseCaseTest.kt`
-- [ ] T047 [P] [US3] Add DAO update and same-id name reuse tests in `data/src/androidTest/java/com/famessa/deli_antojito/data/DAO/ProductoDaoTest.kt`
-- [ ] T048 [P] [US3] Add repository update-product success, missing-product, and duplicate-name tests in `data/src/test/java/com/famessa/deli_antojito/data/Repository/ProductoRepositoryImplTest.kt`
-- [ ] T049 [P] [US3] Add ProductEditViewModel edit-load, update, not-found, and discard tests in `feature/product/src/test/java/com/famessa/deli_antojito/feature/product/ProductEditViewModelTest.kt`
-- [ ] T050 [P] [US3] Add edit-product Compose UI tests in `feature/product/src/androidTest/java/com/famessa/deli_antojito/feature/product/ProductEditScreenTest.kt`
+- [X] T046 [P] [US3] Add get-product and edit validation use case tests in `domain/src/test/java/com/famessa/deli_antojito/domain/usecase/producto/SaveProductoUseCaseTest.kt`
+- [X] T047 [P] [US3] Add DAO update and same-id name reuse tests in `data/src/androidTest/java/com/famessa/deli_antojito/data/DAO/ProductoDaoTest.kt`
+- [X] T048 [P] [US3] Add repository update-product success, missing-product, and duplicate-name tests in `data/src/test/java/com/famessa/deli_antojito/data/Repository/ProductoRepositoryImplTest.kt`
+- [X] T049 [P] [US3] Add ProductEditViewModel edit-load, update, not-found, and discard tests in `feature/product/src/test/java/com/famessa/deli_antojito/feature/product/ProductEditViewModelTest.kt`
+- [X] T050 [P] [US3] Add edit-product Compose UI tests in `feature/product/src/androidTest/java/com/famessa/deli_antojito/feature/product/ProductEditScreenTest.kt`
 
 ### Implementation for User Story 3
 
-- [ ] T051 [P] [US3] Add get product by id use case in `domain/src/main/java/com/famessa/deli_antojito/domain/usecase/producto/GetProductoByIdUseCase.kt`
-- [ ] T052 [US3] Implement update-product path and missing-product handling in `data/src/main/java/com/famessa/deli_antojito/data/Repository/ProductoRepositoryImpl.kt`
-- [ ] T053 [US3] Extend ProductEditViewModel edit mode to load existing values and save updates in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductEditViewModel.kt`
-- [ ] T054 [US3] Extend ProductEditScreen for edit title, existing image display, and unchanged-name handling in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductEditScreen.kt`
-- [ ] T055 [US3] Connect product row edit action to ProductEditRoute edit mode in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductListScreen.kt`
+- [X] T051 [P] [US3] Add get product by id use case in `domain/src/main/java/com/famessa/deli_antojito/domain/usecase/producto/GetProductoByIdUseCase.kt`
+- [X] T052 [US3] Implement update-product path and missing-product handling in `data/src/main/java/com/famessa/deli_antojito/data/Repository/ProductoRepositoryImpl.kt`
+- [X] T053 [US3] Extend ProductEditViewModel edit mode to load existing values and save updates in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductEditViewModel.kt`
+- [X] T054 [US3] Extend ProductEditScreen for edit title, existing image display, and unchanged-name handling in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductEditScreen.kt`
+- [X] T055 [US3] Connect product row edit action to ProductEditRoute edit mode in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductListScreen.kt`
 
 **Checkpoint**: Edit flow works independently and preserves product identity.
 
@@ -143,18 +143,18 @@
 
 ### Tests for User Story 4
 
-- [ ] T056 [P] [US4] Add delete product use case tests in `domain/src/test/java/com/famessa/deli_antojito/domain/usecase/producto/DeleteProductoUseCaseTest.kt`
-- [ ] T057 [P] [US4] Add DAO physical delete tests in `data/src/androidTest/java/com/famessa/deli_antojito/data/DAO/ProductoDaoTest.kt`
-- [ ] T058 [P] [US4] Add repository delete success and missing-product tests in `data/src/test/java/com/famessa/deli_antojito/data/Repository/ProductoRepositoryImplTest.kt`
-- [ ] T059 [P] [US4] Add ProductViewModel delete confirmation, cancel, success, and failure tests in `feature/product/src/test/java/com/famessa/deli_antojito/feature/product/ProductViewModelTest.kt`
-- [ ] T060 [P] [US4] Add product delete confirmation Compose UI tests in `feature/product/src/androidTest/java/com/famessa/deli_antojito/feature/product/ProductListScreenTest.kt`
+- [X] T056 [P] [US4] Add delete product use case tests in `domain/src/test/java/com/famessa/deli_antojito/domain/usecase/producto/DeleteProductoUseCaseTest.kt`
+- [X] T057 [P] [US4] Add DAO physical delete tests in `data/src/androidTest/java/com/famessa/deli_antojito/data/DAO/ProductoDaoTest.kt`
+- [X] T058 [P] [US4] Add repository delete success and missing-product tests in `data/src/test/java/com/famessa/deli_antojito/data/Repository/ProductoRepositoryImplTest.kt`
+- [X] T059 [P] [US4] Add ProductViewModel delete confirmation, cancel, success, and failure tests in `feature/product/src/test/java/com/famessa/deli_antojito/feature/product/ProductViewModelTest.kt`
+- [X] T060 [P] [US4] Add product delete confirmation Compose UI tests in `feature/product/src/androidTest/java/com/famessa/deli_antojito/feature/product/ProductListScreenTest.kt`
 
 ### Implementation for User Story 4
 
-- [ ] T061 [P] [US4] Add delete product use case in `domain/src/main/java/com/famessa/deli_antojito/domain/usecase/producto/DeleteProductoUseCase.kt`
-- [ ] T062 [US4] Implement physical delete result handling in `data/src/main/java/com/famessa/deli_antojito/data/Repository/ProductoRepositoryImpl.kt`
-- [ ] T063 [US4] Extend ProductViewModel with delete dialog state, cancel, confirm, refresh, and error handling in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductViewModel.kt`
-- [ ] T064 [US4] Add row action menu and delete confirmation dialog to ProductListScreen in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductListScreen.kt`
+- [X] T061 [P] [US4] Add delete product use case in `domain/src/main/java/com/famessa/deli_antojito/domain/usecase/producto/DeleteProductoUseCase.kt`
+- [X] T062 [US4] Implement physical delete result handling in `data/src/main/java/com/famessa/deli_antojito/data/Repository/ProductoRepositoryImpl.kt`
+- [X] T063 [US4] Extend ProductViewModel with delete dialog state, cancel, confirm, refresh, and error handling in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductViewModel.kt`
+- [X] T064 [US4] Add row action menu and delete confirmation dialog to ProductListScreen in `feature/product/src/main/java/com/famessa/deli_antojito/feature/product/ProductListScreen.kt`
 
 **Checkpoint**: Physical delete works independently and updates persisted catalog state.
 
@@ -164,12 +164,12 @@
 
 **Purpose**: Final validation, documentation, and quality gates across all stories.
 
-- [ ] T065 [P] Add product feature KDoc review updates in `domain/src/main/java/com/famessa/deli_antojito/domain/usecase/producto/`
-- [ ] T066 [P] Add logging guard tests or assertions for no base64 image logging in `feature/product/src/test/java/com/famessa/deli_antojito/feature/product/ProductLoggingTest.kt`
-- [ ] T067 Run and document quickstart validation results in `specs/002-product-module/quickstart.md`
-- [ ] T068 Run `./gradlew.bat :domain:test :data:test :feature:product:testDebugUnitTest` and fix failures in touched files
-- [ ] T069 Run `./gradlew.bat :data:connectedDebugAndroidTest :feature:product:connectedDebugAndroidTest :app:connectedDebugAndroidTest` and fix failures in touched files
-- [ ] T070 Run `./gradlew.bat :app:assembleDebug` and fix build/lint failures in touched files
+- [X] T065 [P] Add product feature KDoc review updates in `domain/src/main/java/com/famessa/deli_antojito/domain/usecase/producto/`
+- [X] T066 [P] Add logging guard tests or assertions for no base64 image logging in `feature/product/src/test/java/com/famessa/deli_antojito/feature/product/ProductLoggingTest.kt`
+- [X] T067 Run and document quickstart validation results in `specs/002-product-module/quickstart.md`
+- [X] T068 Run `./gradlew.bat :domain:test :data:test :feature:product:testDebugUnitTest` and fix failures in touched files
+- [X] T069 Run `./gradlew.bat :data:connectedDebugAndroidTest :feature:product:connectedDebugAndroidTest :app:connectedDebugAndroidTest` and fix failures in touched files
+- [X] T070 Run `./gradlew.bat :app:assembleDebug` and fix build/lint failures in touched files
 
 ---
 

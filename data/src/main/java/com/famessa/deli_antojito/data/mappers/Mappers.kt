@@ -9,14 +9,16 @@ fun ProductoEntity.toDomain() = Producto(
     id = id,
     nombre = nombre,
     precioBase = precioBase,
-    categoria = categoria
+    img = img,
+    activo = activo
 )
 
 fun Producto.toEntity() = ProductoEntity(
     id = id,
     nombre = nombre,
     precioBase = precioBase,
-    categoria = categoria
+    img = img,
+    activo = activo
 )
 
 fun ConfiguracionEntity.toDomain() = Configuracion(

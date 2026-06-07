@@ -53,6 +53,7 @@ android {
 dependencies {
     implementation(project(":feature:home"))
     implementation(project(":feature:business-config"))
+    implementation(project(":feature:product"))
     implementation(project(":core:ui"))
     implementation(project(":core:network"))
     implementation(project(":core:common"))

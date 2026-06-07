@@ -55,3 +55,11 @@ Run app navigation/integration checks:
 
 - Search/filter controls from the mockup are not part of this feature unless added in a later spec.
 - The add form defaults to active in this plan based on the mockup. Revise before `/speckit-tasks` if product ownership decides otherwise.
+
+## Validation Results
+
+Validated on 2026-06-06:
+
+- `./gradlew.bat :domain:test :data:test :feature:product:testDebugUnitTest` passed.
+- `./gradlew.bat :data:connectedDebugAndroidTest :feature:product:connectedDebugAndroidTest :app:connectedDebugAndroidTest` passed on connected device `TB330FU - 15`.
+- `./gradlew.bat :app:assembleDebug` passed.
