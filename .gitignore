@@ -22,4 +22,5 @@ out/
 Thumbs.db
 *.tmp
 *.swp
-/**/build/
+app/build/
+feature/*/build/
