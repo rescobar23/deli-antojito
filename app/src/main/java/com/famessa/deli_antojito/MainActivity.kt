@@ -26,6 +26,8 @@ import com.famessa.deli_antojito.domain.model.ConfiguracionState
 import com.famessa.deli_antojito.domain.usecase.configuracion.GetStartupConfigurationStateUseCase
 import com.famessa.deli_antojito.feature.businessconfig.BusinessConfigRoute
 import com.famessa.deli_antojito.feature.home.HomeView
+import com.famessa.deli_antojito.feature.product.ProductEditRoute
+import com.famessa.deli_antojito.feature.product.ProductListRoute
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -43,10 +45,22 @@ class MainActivity : ComponentActivity() {
                 val startupState by getStartupConfigurationStateUseCase()
                     .collectAsState(initial = ConfiguracionState.Loading)
                 var showConfigEditor by remember { mutableStateOf(false) }
+                var showProducts by remember { mutableStateOf(false) }
+                var editingProductId by remember { mutableStateOf<Long?>(null) }
 
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
                         when {
+                            editingProductId != null -> ProductEditRoute(
+                                productId = editingProductId,
+                                onSaved = { editingProductId = null },
+                                onCancel = { editingProductId = null }
+                            )
+                            showProducts -> ProductListRoute(
+                                onAddProduct = { editingProductId = 0L },
+                                onEditProduct = { editingProductId = it },
+                                onBack = { showProducts = false }
+                            )
                             showConfigEditor -> BusinessConfigRoute(
                                 isInitialSetup = false,
                                 onSaved = { showConfigEditor = false },
@@ -60,7 +74,8 @@ class MainActivity : ComponentActivity() {
                                 onSaved = { }
                             )
                             startupState is ConfiguracionState.Configured -> HomeView(
-                                onAdminClick = { showConfigEditor = true }
+                                onAdminClick = { showConfigEditor = true },
+                                onProductClick = { showProducts = true }
                             )
                             startupState is ConfiguracionState.InvalidLocalData -> StartupError(
                                 message = "La configuracion local no es valida.",

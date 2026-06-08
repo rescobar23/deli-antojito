@@ -4,9 +4,9 @@ import com.famessa.deli_antojito.domain.model.Producto
 import kotlinx.coroutines.flow.Flow
 
 interface ProductoRepository {
-    suspend fun insertProducto(producto: Producto)
-    suspend fun updateProducto(producto: Producto)
-    fun getAllProductos(): Flow<List<Producto>>
+    fun observeProductos(): Flow<List<Producto>>
     suspend fun getProductoById(id: Long): Producto?
-    suspend fun deleteProducto(id: Long)
+    suspend fun isNombreDisponible(nombre: String, excludeId: Long? = null): Boolean
+    suspend fun saveProducto(producto: Producto): com.famessa.deli_antojito.domain.model.ProductoSaveResult
+    suspend fun deleteProducto(id: Long): com.famessa.deli_antojito.domain.model.ProductoDeleteResult
 }
