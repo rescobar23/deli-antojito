@@ -26,7 +26,7 @@ class BusinessConfigScreenTest {
             )
         }
 
-        composeRule.onNodeWithText("Configura tu negocio").assertIsDisplayed()
+        composeRule.onNodeWithText("Configuración").assertIsDisplayed()
         composeRule.onNodeWithTag(BusinessConfigTestTags.NameInput).assertIsDisplayed()
     }
 

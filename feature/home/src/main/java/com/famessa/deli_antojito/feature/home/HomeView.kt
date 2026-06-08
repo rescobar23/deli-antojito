@@ -18,6 +18,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -35,6 +36,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -120,13 +122,13 @@ fun HomeContent(
                         textAlign = TextAlign.Center,
                         modifier = Modifier.testTag("home_business_name")
                     )
-                    /*Text(
+                    Text(
                         text = "Gestión inteligente, producción eficiente.",
                         color = AquaDeep,
                         style = MaterialTheme.typography.titleMedium,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(top = 6.dp)
-                    )*/
+                    )
 
                     Spacer(modifier = Modifier.height(34.dp))
                     Text(
@@ -136,13 +138,13 @@ fun HomeContent(
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center
                     )
-                    /*Text(
+                    Text(
                         text = "Administra tu negocio de forma fácil y eficiente\n desde un solo lugar.",
                         color = AquaDeep.copy(alpha = 0.86f),
                         style = MaterialTheme.typography.bodyLarge,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(top = 10.dp)
-                    )*/
+                    )
 
                     Spacer(modifier = Modifier.height(34.dp))
                     ModuleGrid(
@@ -155,7 +157,7 @@ fun HomeContent(
         }
     }
 }
-
+/*
 @Composable
 private fun HomeTopBar() {
     Box(
@@ -173,7 +175,7 @@ private fun HomeTopBar() {
         MenuGlyph(color = Color.White, modifier = Modifier.size(34.dp))
     }
 }
-
+*/
 @Composable
 private fun ModuleGrid(
     cardSpacing: androidx.compose.ui.unit.Dp,
@@ -184,14 +186,14 @@ private fun ModuleGrid(
         Row(horizontalArrangement = Arrangement.spacedBy(cardSpacing)) {
             ModuleCard(
                 title = "Pedidos",
-                description = "",
+                description = "Administra tus pedidos",
                 icon = ModuleIconType.Orders,
                 onClick = null,
                 modifier = Modifier.weight(1f)
             )
             ModuleCard(
                 title = "Productos",
-                description = "",
+                description = "Administra tus productos",
                 icon = ModuleIconType.Products,
                 onClick = onProductClick,
                 modifier = Modifier
@@ -202,14 +204,14 @@ private fun ModuleGrid(
         Row(horizontalArrangement = Arrangement.spacedBy(cardSpacing)) {
             ModuleCard(
                 title = "Cierre de venta",
-                description = "",
+                description = "Finaliza el dia de ventas",
                 icon = ModuleIconType.CloseSale,
                 onClick = null,
                 modifier = Modifier.weight(1f)
             )
             ModuleCard(
                 title = "Configuración",
-                description = "",
+                description = "Configura tu negocio",
                 icon = ModuleIconType.Settings,
                 onClick = onAdminClick,
                 modifier = Modifier
@@ -230,7 +232,7 @@ private fun ModuleCard(
 ) {
     val shape = RoundedCornerShape(20.dp)
     val surfaceModifier = modifier
-        .height(166.dp)
+        .height(180.dp)
         .shadow(
             elevation = 7.dp,
             shape = shape,
@@ -247,18 +249,13 @@ private fun ModuleCard(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Surface(
-                    modifier = Modifier.size(70.dp),
-                    shape = CircleShape,
-                    color = AquaChip.copy(alpha = 0.78f)
-                ) {
-                    ModuleIcon(
-                        type = icon,
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .fillMaxSize()
-                    )
+                when(icon){
+                    ModuleIconType.Orders -> Icon(painterResource(id = com.famessa.deli_antojito.core.ui.R.drawable.ic_orders), contentDescription = null, Modifier.size(70.dp), tint = AquaLv3.copy())
+                    ModuleIconType.Products -> Icon(painterResource(id = com.famessa.deli_antojito.core.ui.R.drawable.ic_products), contentDescription = null, Modifier.size(70.dp), tint = AquaLv3.copy())
+                    ModuleIconType.CloseSale -> Icon(painterResource(id = com.famessa.deli_antojito.core.ui.R.drawable.ic_batch_close), contentDescription = null, Modifier.size(70.dp), tint = AquaLv3.copy())
+                    ModuleIconType.Settings -> Icon(painterResource(id = com.famessa.deli_antojito.core.ui.R.drawable.ic_settings), contentDescription = null, Modifier.size(70.dp), tint = AquaLv3.copy())
                 }
+
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
                     text = title,
@@ -398,77 +395,6 @@ private fun ChevronGlyph(modifier: Modifier = Modifier, color: Color) {
             strokeWidth = size.width * 0.14f,
             cap = StrokeCap.Round
         )
-    }
-}
-
-@Composable
-private fun ModuleIcon(
-    type: ModuleIconType,
-    modifier: Modifier = Modifier
-) {
-    Canvas(modifier = modifier) {
-        val stroke = Stroke(width = size.minDimension * 0.09f, cap = StrokeCap.Round)
-        when (type) {
-            ModuleIconType.Orders -> {
-                drawRoundRect(
-                    color = AquaLv5,
-                    topLeft = Offset(size.width * 0.18f, size.height * 0.16f),
-                    size = Size(size.width * 0.64f, size.height * 0.72f),
-                    style = stroke
-                )
-                drawRoundRect(
-                    color = AquaLv5,
-                    topLeft = Offset(size.width * 0.38f, size.height * 0.04f),
-                    size = Size(size.width * 0.24f, size.height * 0.2f),
-                    style = stroke
-                )
-                listOf(0.38f, 0.54f, 0.70f).forEach { y ->
-                    drawLine(AquaLv5, Offset(size.width * 0.42f, size.height * y), Offset(size.width * 0.68f, size.height * y), strokeWidth = stroke.width, cap = StrokeCap.Round)
-                    drawLine(AquaLv5, Offset(size.width * 0.27f, size.height * (y - 0.02f)), Offset(size.width * 0.32f, size.height * (y + 0.03f)), strokeWidth = stroke.width * 0.72f, cap = StrokeCap.Round)
-                }
-            }
-            ModuleIconType.Products -> {
-                val p = Path().apply {
-                    moveTo(size.width * 0.5f, size.height * 0.08f)
-                    lineTo(size.width * 0.9f, size.height * 0.3f)
-                    lineTo(size.width * 0.9f, size.height * 0.72f)
-                    lineTo(size.width * 0.5f, size.height * 0.94f)
-                    lineTo(size.width * 0.1f, size.height * 0.72f)
-                    lineTo(size.width * 0.1f, size.height * 0.3f)
-                    close()
-                }
-                drawPath(p, AquaLv5, style = stroke)
-                drawLine(AquaLv5, Offset(size.width * 0.5f, size.height * 0.5f), Offset(size.width * 0.5f, size.height * 0.94f), strokeWidth = stroke.width, cap = StrokeCap.Round)
-                drawLine(AquaLv5, Offset(size.width * 0.1f, size.height * 0.3f), Offset(size.width * 0.5f, size.height * 0.5f), strokeWidth = stroke.width, cap = StrokeCap.Round)
-                drawLine(AquaLv5, Offset(size.width * 0.9f, size.height * 0.3f), Offset(size.width * 0.5f, size.height * 0.5f), strokeWidth = stroke.width, cap = StrokeCap.Round)
-            }
-            ModuleIconType.CloseSale -> {
-                drawRoundRect(
-                    color = AquaLv5,
-                    topLeft = Offset(size.width * 0.16f, size.height * 0.34f),
-                    size = Size(size.width * 0.68f, size.height * 0.5f),
-                    style = stroke
-                )
-                drawLine(AquaLv5, Offset(size.width * 0.12f, size.height * 0.26f), Offset(size.width * 0.88f, size.height * 0.26f), strokeWidth = stroke.width, cap = StrokeCap.Round)
-                drawLine(AquaLv5, Offset(size.width * 0.43f, size.height * 0.34f), Offset(size.width * 0.43f, size.height * 0.55f), strokeWidth = stroke.width, cap = StrokeCap.Round)
-                drawLine(AquaLv5, Offset(size.width * 0.57f, size.height * 0.34f), Offset(size.width * 0.57f, size.height * 0.55f), strokeWidth = stroke.width, cap = StrokeCap.Round)
-            }
-            ModuleIconType.Settings -> {
-                drawCircle(AquaLv5, radius = size.minDimension * 0.18f, style = stroke)
-                repeat(8) { index ->
-                    val angle = Math.toRadians((index * 45).toDouble())
-                    val inner = Offset(
-                        x = center.x + kotlin.math.cos(angle).toFloat() * size.minDimension * 0.30f,
-                        y = center.y + kotlin.math.sin(angle).toFloat() * size.minDimension * 0.30f
-                    )
-                    val outer = Offset(
-                        x = center.x + kotlin.math.cos(angle).toFloat() * size.minDimension * 0.43f,
-                        y = center.y + kotlin.math.sin(angle).toFloat() * size.minDimension * 0.43f
-                    )
-                    drawLine(AquaLv5, inner, outer, strokeWidth = stroke.width, cap = StrokeCap.Round)
-                }
-            }
-        }
     }
 }
 

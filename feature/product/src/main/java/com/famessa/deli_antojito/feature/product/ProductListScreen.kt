@@ -1,5 +1,6 @@
 package com.famessa.deli_antojito.feature.product
 
+import android.R
 import android.graphics.BitmapFactory
 import android.util.Base64
 import androidx.compose.foundation.Canvas
@@ -25,6 +26,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -44,6 +46,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -150,7 +153,7 @@ private fun ProductTopBar(onBack: () -> Unit) {
                 .clickable(onClick = onBack),
             contentAlignment = Alignment.Center
         ) {
-            HomeGlyph(color = Color.White, modifier = Modifier.size(34.dp))
+            Icon(painterResource(id = com.famessa.deli_antojito.core.ui.R.drawable.ic_home), contentDescription = null, Modifier.size(34.dp), tint = Color.White)
         }
         Text(
             text = "Productos",
@@ -161,7 +164,7 @@ private fun ProductTopBar(onBack: () -> Unit) {
                 .weight(1f)
                 .padding(start = 28.dp)
         )
-        SearchGlyph(color = Color.White, modifier = Modifier.size(42.dp))
+        Icon(painterResource(id = com.famessa.deli_antojito.core.ui.R.drawable.ic_search), contentDescription = null, tint = Color.White, modifier = Modifier.size(42.dp))
     }
 }
 
@@ -232,14 +235,18 @@ private fun ProductListHeader() {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                FilterGlyph(color = AquaLv5, modifier = Modifier.size(22.dp))
+                //FilterGlyph(color = AquaLv5, modifier = Modifier.size(22.dp))
+                Icon(
+                    painter = painterResource(id = com.famessa.deli_antojito.core.ui.R.drawable.ic_filter),
+                    contentDescription = null,
+                    tint = AquaLv5
+                )
                 Text(
                     text = "Filtrar",
                     color = AquaLv5,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold
                 )
-                DownGlyph(color = AquaLv5, modifier = Modifier.size(16.dp))
             }
         }
     }
@@ -434,7 +441,12 @@ private fun ProductRow(product: Producto, onEdit: () -> Unit, onDelete: () -> Un
                     .clickable(onClick = onDelete),
                 contentAlignment = Alignment.Center
             ) {
-                MoreGlyph(color = AquaDeep.copy(alpha = 0.82f), modifier = Modifier.size(24.dp))
+                Icon(
+                    painter = painterResource(id = com.famessa.deli_antojito.core.ui.R.drawable.ic_delete),
+                    contentDescription = null,
+                    tint = Color.Red,
+                    modifier = Modifier.size(24.dp)
+                )
             }
         }
     }
@@ -507,7 +519,12 @@ private fun ProductAddAction(onAddProduct: () -> Unit, modifier: Modifier = Modi
                 .size(74.dp)
                 .testTag(ProductTestTags.AddButton)
         ) {
-            PlusGlyph(color = Color.White, modifier = Modifier.size(38.dp))
+            Icon(
+                painter = painterResource(id = com.famessa.deli_antojito.core.ui.R.drawable.ic_add),
+                contentDescription = null,
+                modifier = Modifier.size(38.dp),
+                tint = Color.White
+            )
         }
         Text(
             text = "Agregar producto",
@@ -525,89 +542,26 @@ private enum class SummaryIconType {
 }
 
 @Composable
-private fun HomeGlyph(color: Color, modifier: Modifier = Modifier) {
+private fun WaveBackground(modifier: Modifier = Modifier) {
     Canvas(modifier = modifier) {
-        val stroke = Stroke(
-            width = size.width * 0.09f,
-            cap = androidx.compose.ui.graphics.StrokeCap.Round,
-            join = androidx.compose.ui.graphics.StrokeJoin.Round
-        )
-        val roof = Path().apply {
-            moveTo(size.width * 0.16f, size.height * 0.46f)
-            lineTo(size.width * 0.50f, size.height * 0.18f)
-            lineTo(size.width * 0.84f, size.height * 0.46f)
-        }
-        val body = Path().apply {
-            moveTo(size.width * 0.26f, size.height * 0.46f)
-            lineTo(size.width * 0.26f, size.height * 0.82f)
-            lineTo(size.width * 0.42f, size.height * 0.82f)
-            lineTo(size.width * 0.42f, size.height * 0.62f)
-            lineTo(size.width * 0.58f, size.height * 0.62f)
-            lineTo(size.width * 0.58f, size.height * 0.82f)
-            lineTo(size.width * 0.74f, size.height * 0.82f)
-            lineTo(size.width * 0.74f, size.height * 0.46f)
-        }
-        drawPath(roof, color, style = stroke)
-        drawPath(body, color, style = stroke)
-    }
-}
-
-@Composable
-private fun SearchGlyph(color: Color, modifier: Modifier = Modifier) {
-    Canvas(modifier = modifier) {
-        drawCircle(
-            color = color,
-            radius = size.minDimension * 0.26f,
-            center = Offset(size.width * 0.43f, size.height * 0.40f),
-            style = Stroke(width = size.minDimension * 0.1f)
-        )
-        drawLine(
-            color = color,
-            start = Offset(size.width * 0.62f, size.height * 0.62f),
-            end = Offset(size.width * 0.84f, size.height * 0.84f),
-            strokeWidth = size.minDimension * 0.1f,
-            cap = androidx.compose.ui.graphics.StrokeCap.Round
-        )
-    }
-}
-
-@Composable
-private fun FilterGlyph(color: Color, modifier: Modifier = Modifier) {
-    Canvas(modifier = modifier) {
-        listOf(0.25f to 0.78f, 0.5f to 0.58f, 0.75f to 0.36f).forEach { (y, end) ->
-            drawLine(
-                color = color,
-                start = Offset(size.width * 0.2f, size.height * y),
-                end = Offset(size.width * end, size.height * y),
-                strokeWidth = size.height * 0.09f,
-                cap = androidx.compose.ui.graphics.StrokeCap.Round
+        fun wavePath(top: Float, leftDip: Float, rightDip: Float) = Path().apply {
+            moveTo(0f, size.height * top)
+            cubicTo(
+                size.width * 0.25f,
+                size.height * leftDip,
+                size.width * 0.48f,
+                size.height * rightDip,
+                size.width,
+                size.height * (top - 0.12f)
             )
+            lineTo(size.width, size.height)
+            lineTo(0f, size.height)
+            close()
         }
-    }
-}
 
-@Composable
-private fun DownGlyph(color: Color, modifier: Modifier = Modifier) {
-    Canvas(modifier = modifier) {
-        drawLine(color, Offset(size.width * 0.2f, size.height * 0.38f), Offset(size.width * 0.5f, size.height * 0.68f), strokeWidth = size.width * 0.12f, cap = androidx.compose.ui.graphics.StrokeCap.Round)
-        drawLine(color, Offset(size.width * 0.5f, size.height * 0.68f), Offset(size.width * 0.8f, size.height * 0.38f), strokeWidth = size.width * 0.12f, cap = androidx.compose.ui.graphics.StrokeCap.Round)
-    }
-}
-
-@Composable
-private fun MoreGlyph(color: Color, modifier: Modifier = Modifier) {
-    Canvas(modifier = modifier) {
-        listOf(0.24f, 0.5f, 0.76f).forEach { y ->
-            drawCircle(color = color, radius = size.minDimension * 0.08f, center = Offset(size.width * 0.5f, size.height * y))
-        }
-    }
-}
-
-@Composable
-private fun PlusGlyph(color: Color, modifier: Modifier = Modifier) {
-    Canvas(modifier = modifier) {
-        drawLine(color, Offset(size.width * 0.5f, size.height * 0.18f), Offset(size.width * 0.5f, size.height * 0.82f), strokeWidth = size.width * 0.12f, cap = androidx.compose.ui.graphics.StrokeCap.Round)
-        drawLine(color, Offset(size.width * 0.18f, size.height * 0.5f), Offset(size.width * 0.82f, size.height * 0.5f), strokeWidth = size.width * 0.12f, cap = androidx.compose.ui.graphics.StrokeCap.Round)
+        drawPath(wavePath(0.16f, 0.32f, 0.68f), AquaChip.copy(alpha = 0.5f))
+        drawPath(wavePath(0.44f, 0.84f, 0.34f), AquaLv1.copy(alpha = 0.74f))
+        drawPath(wavePath(0.76f, 1.02f, 0.58f), AquaLv3.copy(alpha = 0.86f))
     }
 }
 
@@ -665,30 +619,6 @@ private fun ProductPlaceholderGlyph(initial: String, modifier: Modifier = Modifi
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
         )
-    }
-}
-
-@Composable
-private fun WaveBackground(modifier: Modifier = Modifier) {
-    Canvas(modifier = modifier) {
-        fun wavePath(top: Float, leftDip: Float, rightDip: Float) = Path().apply {
-            moveTo(0f, size.height * top)
-            cubicTo(
-                size.width * 0.25f,
-                size.height * leftDip,
-                size.width * 0.48f,
-                size.height * rightDip,
-                size.width,
-                size.height * (top - 0.12f)
-            )
-            lineTo(size.width, size.height)
-            lineTo(0f, size.height)
-            close()
-        }
-
-        drawPath(wavePath(0.16f, 0.32f, 0.68f), AquaChip.copy(alpha = 0.5f))
-        drawPath(wavePath(0.44f, 0.84f, 0.34f), AquaLv1.copy(alpha = 0.74f))
-        drawPath(wavePath(0.76f, 1.02f, 0.58f), AquaLv3.copy(alpha = 0.86f))
     }
 }
 
