@@ -35,7 +35,7 @@ Como usuario administrador del negocio, quiero ver la lista de productos registr
 
 ### User Story 2 - Registrar producto (Priority: P2)
 
-Como usuario administrador del negocio, quiero agregar un producto desde una pantalla dedicada para capturar nombre, precio base, imagen y estado de disponibilidad.
+Como usuario administrador del negocio, quiero agregar un producto desde una pantalla dedicada para capturar nombre, precio base, imagen y estado de disponibilidad, pudiendo elegir una imagen desde el dispositivo o tomar una foto.
 
 **Why this priority**: Permite construir el catalogo de venta y es la accion principal derivada del listado inicial.
 
@@ -44,8 +44,9 @@ Como usuario administrador del negocio, quiero agregar un producto desde una pan
 **Acceptance Scenarios**:
 
 1. **Given** el usuario esta en el listado de productos, **When** selecciona agregar producto, **Then** navega a la pantalla de alta de producto.
-2. **Given** el usuario captura un nombre valido, precio base valido, imagen opcional y estado, **When** guarda el producto, **Then** el producto queda registrado y el usuario vuelve al listado con el nuevo producto visible.
+2. **Given** el usuario selecciona una imagen desde el dispositivo o toma una foto, captura un nombre valido, precio base valido, imagen opcional y estado, **When** guarda el producto, **Then** el producto queda registrado y el usuario vuelve al listado con el nuevo producto visible.
 3. **Given** el usuario intenta guardar sin nombre o sin precio base valido, **When** solicita guardar, **Then** el sistema muestra errores claros y conserva la informacion capturada.
+4. **Given** el usuario intenta adjuntar una imagen que excede el limite permitido, **When** confirma la seleccion, **Then** el sistema rechaza la imagen y explica el motivo.
 
 ---
 
@@ -81,7 +82,9 @@ Como usuario administrador del negocio, quiero eliminar un producto para quitar 
 
 - Si la lista no tiene productos, el modulo debe mostrar un estado vacio comprensible y mantener disponible la accion de agregar producto.
 - Si una imagen no fue capturada o no puede mostrarse, el producto debe presentarse con un marcador visual alterno sin impedir consultar la lista.
+- Si el usuario cancela la seleccion desde la galeria o la camara, el formulario debe conservar el estado anterior de la imagen.
 - Si el usuario selecciona una imagen que no es JPG/PNG o excede 2 MB, el sistema debe impedir adjuntarla y mostrar el motivo.
+- Si el usuario niega el acceso a la galeria o a la camara, el sistema debe informar que la accion no pudo completarse y mantener el formulario utilizable.
 - Si el nombre excede 120 caracteres, el sistema debe impedir guardar y explicar el limite.
 - Si el nombre coincide con otro producto al ignorar mayusculas/minusculas y espacios al inicio/fin, el sistema debe impedir guardar y explicar que el nombre ya existe.
 - Si el precio base es cero, negativo, vacio o no numerico, el sistema debe impedir guardar.
@@ -104,15 +107,16 @@ Como usuario administrador del negocio, quiero eliminar un producto para quitar 
 - **FR-009**: System MUST accept only valid monetary values greater than zero for base price.
 - **FR-010**: System MUST store the product image as captured image content when the user provides one.
 - **FR-011**: System MUST accept only JPG or PNG product images up to 2 MB.
-- **FR-012**: System MUST prevent duplicate product names by comparing names after trimming leading/trailing spaces and ignoring letter case.
-- **FR-013**: Users MUST be able to mark a product as active or inactive during creation and edition.
-- **FR-014**: Users MUST be able to edit an existing product without changing its identifier.
-- **FR-015**: Users MUST be able to delete a product physically after confirming the action.
-- **FR-016**: System MUST remove physically deleted products from the product list, totals and future reads.
-- **FR-017**: System MUST preserve Clean Architecture boundaries by keeping business rules out of UI and implementation details out of domain models.
-- **FR-018**: System MUST handle null, empty, error and loading states without crashes or silent failures.
-- **FR-019**: System MUST avoid exposing secrets, credentials, tokens or unnecessary business data in source code, logs, UI state or test fixtures.
-- **FR-020**: System MUST define testable acceptance coverage for changed domain, data, ViewModel and UI behavior.
+- **FR-012**: Users MUST be able to choose a product image from the device or capture a new photo before validation and save.
+- **FR-013**: System MUST prevent duplicate product names by comparing names after trimming leading/trailing spaces and ignoring letter case.
+- **FR-014**: Users MUST be able to mark a product as active or inactive during creation and edition.
+- **FR-015**: Users MUST be able to edit an existing product without changing its identifier.
+- **FR-016**: Users MUST be able to delete a product physically after confirming the action.
+- **FR-017**: System MUST remove physically deleted products from the product list, totals and future reads.
+- **FR-018**: System MUST preserve Clean Architecture boundaries by keeping business rules out of UI and implementation details out of domain models.
+- **FR-019**: System MUST handle null, empty, error and loading states without crashes or silent failures.
+- **FR-020**: System MUST avoid exposing secrets, credentials, tokens or unnecessary business data in source code, logs, UI state or test fixtures.
+- **FR-021**: System MUST define testable acceptance coverage for changed domain, data, ViewModel and UI behavior.
 
 ### Architecture & Quality Constraints *(mandatory)*
 

@@ -37,6 +37,28 @@ class ProductEditViewModelTest {
     }
 
     @Test
+    fun imageSourceChooserCanBeOpenedAndClosed() {
+        val viewModel = viewModel(FakeProductoRepository())
+
+        viewModel.requestImageSourceChooser()
+        assertTrue(viewModel.uiState.value.showImageSourceChooser)
+
+        viewModel.dismissImageSourceChooser()
+        assertTrue(!viewModel.uiState.value.showImageSourceChooser)
+    }
+
+    @Test
+    fun selectingImageClosesChooserAndStoresImage() {
+        val viewModel = viewModel(FakeProductoRepository())
+
+        viewModel.requestImageSourceChooser()
+        viewModel.onImageSelected("abc123", "image/png", 128)
+
+        assertTrue(!viewModel.uiState.value.showImageSourceChooser)
+        assertEquals("abc123", viewModel.uiState.value.img)
+    }
+
+    @Test
     fun blankNameShowsValidation() = runTest {
         val viewModel = viewModel(FakeProductoRepository())
         viewModel.start(null)

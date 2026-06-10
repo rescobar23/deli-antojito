@@ -11,7 +11,7 @@ Represents an item sold or offered by the business.
 | `id` | Long | Yes | Generated locally; stable after creation |
 | `nombre` | String | Yes | Trimmed value must be 1-120 characters and unique ignoring case |
 | `precioBase` | Decimal | Yes | Must be a valid monetary value greater than zero |
-| `img` | String? | No | Base64 content from JPG/PNG image up to 2 MB before storage |
+| `img` | String? | No | Base64 content from JPG/PNG image up to 2 MB before storage, sourced from device selection or camera capture |
 | `activo` | Boolean | Yes | Defaults to active for new products unless user changes it |
 
 ### Identity and Uniqueness
@@ -36,6 +36,8 @@ Persisted -> Delete confirmation -> Physically deleted
 - Inactive products remain stored and visible in the module but are not available for sale.
 - Physically deleted products are removed from future reads and aggregate totals.
 - Products without images remain valid and use a visual placeholder in the UI.
+- Canceling a gallery or camera flow must preserve the previously selected image, if any.
+- Denying gallery or camera access must not block the rest of the form.
 
 ## Product List Summary
 

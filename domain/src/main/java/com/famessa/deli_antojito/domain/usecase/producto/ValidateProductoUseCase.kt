@@ -23,6 +23,6 @@ class ValidateProductoUseCase {
     companion object {
         const val MAX_NAME_LENGTH = 120
         const val MAX_IMAGE_BYTES = 2L * 1024L * 1024L
-        val SUPPORTED_IMAGE_TYPES = setOf("image/jpeg", "image/jpg", "image/png")
+        val SUPPORTED_IMAGE_TYPES = setOf("image/jpeg", "image/jpg", "image/png", "image/webp")
     }
 }

@@ -1,6 +1,5 @@
 package com.famessa.deli_antojito.feature.product
 
-import android.R
 import android.graphics.BitmapFactory
 import android.util.Base64
 import androidx.compose.foundation.Canvas
@@ -164,7 +163,7 @@ private fun ProductTopBar(onBack: () -> Unit) {
                 .weight(1f)
                 .padding(start = 28.dp)
         )
-        Icon(painterResource(id = com.famessa.deli_antojito.core.ui.R.drawable.ic_search), contentDescription = null, tint = Color.White, modifier = Modifier.size(42.dp))
+        //Icon(painterResource(id = com.famessa.deli_antojito.core.ui.R.drawable.ic_search), contentDescription = null, tint = Color.White, modifier = Modifier.size(42.dp))
     }
 }
 
@@ -224,7 +223,7 @@ private fun ProductListHeader() {
             fontWeight = FontWeight.Bold,
             modifier = Modifier.weight(1f)
         )
-        Surface(
+        /*Surface(
             shape = RoundedCornerShape(18.dp),
             color = AquaMist.copy(alpha = 0.64f),
             tonalElevation = 0.dp,
@@ -248,7 +247,7 @@ private fun ProductListHeader() {
                     fontWeight = FontWeight.SemiBold
                 )
             }
-        }
+        }*/
     }
 }
 

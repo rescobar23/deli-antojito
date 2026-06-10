@@ -69,6 +69,18 @@ class ProductEditViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(activo = value, isDirty = true)
     }
 
+    fun requestImageSourceChooser() {
+        _uiState.value = _uiState.value.copy(
+            showImageSourceChooser = true,
+            validationMessage = null,
+            errorMessage = null
+        )
+    }
+
+    fun dismissImageSourceChooser() {
+        _uiState.value = _uiState.value.copy(showImageSourceChooser = false)
+    }
+
     fun onImageSelected(base64: String?, mimeType: String?, sizeBytes: Long?) {
         val validation = validateProductoUseCase(
             nombre = _uiState.value.nombre.ifBlank { "Temporal" },
@@ -76,11 +88,12 @@ class ProductEditViewModel @Inject constructor(
             imageMimeType = mimeType,
             imageSizeBytes = sizeBytes
         )
+        val nextState = _uiState.value.copy(showImageSourceChooser = false)
         if (validation == ProductoValidationResult.InvalidImageFormat || validation == ProductoValidationResult.ImageTooLarge) {
-            _uiState.value = _uiState.value.copy(validationMessage = validation.toMessage())
+            _uiState.value = nextState.copy(validationMessage = validation.toMessage())
             return
         }
-        _uiState.value = _uiState.value.copy(img = base64, isDirty = true, validationMessage = null)
+        _uiState.value = nextState.copy(img = base64, isDirty = true, validationMessage = null)
     }
 
     fun removeImage() {
@@ -159,6 +172,6 @@ private fun ProductoValidationResult.toMessage(): String = when (this) {
     ProductoValidationResult.MissingName -> "El nombre del producto es obligatorio."
     ProductoValidationResult.NameTooLong -> "El nombre no debe exceder 120 caracteres."
     ProductoValidationResult.MissingOrInvalidPrice -> "El precio base debe ser mayor a cero."
-    ProductoValidationResult.InvalidImageFormat -> "La imagen debe ser JPG o PNG."
+    ProductoValidationResult.InvalidImageFormat -> "La imagen debe ser JPG, PNG o WEBP."
     ProductoValidationResult.ImageTooLarge -> "La imagen no debe exceder 2 MB."
 }

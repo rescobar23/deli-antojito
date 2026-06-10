@@ -68,6 +68,8 @@
 - `ChangeName(value)`
 - `ChangeBasePrice(value)`
 - `SelectImage(image)`
+- `SelectImageFromDevice`
+- `CaptureImageFromCamera`
 - `RemoveImage`
 - `SetActive(value)`
 - `Save`
@@ -83,6 +85,8 @@
 - Base price must be greater than zero.
 - Image is optional.
 - Image must be JPG/PNG and no larger than 2 MB when provided.
+- Canceling either image source keeps the current form image unchanged.
+- Permission denial for gallery or camera shows a recoverable message and leaves the form usable.
 
 **Navigation Contract**:
 
