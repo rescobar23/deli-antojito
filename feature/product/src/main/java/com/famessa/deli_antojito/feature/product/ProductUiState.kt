@@ -9,6 +9,8 @@ object ProductTestTags {
     const val AddButton = "product_add_button"
     const val RetryButton = "product_retry_button"
     const val EditScreen = "product_edit_screen"
+    const val ImagePicker = "product_image_picker"
+    const val ImageSourceDialog = "product_image_source_dialog"
     const val NameInput = "product_name_input"
     const val PriceInput = "product_price_input"
     const val ActiveSwitch = "product_active_switch"
@@ -41,5 +43,6 @@ data class ProductFormState(
     val isLoading: Boolean = false,
     val isSaved: Boolean = false,
     val isDirty: Boolean = false,
-    val showDiscardConfirmation: Boolean = false
+    val showDiscardConfirmation: Boolean = false,
+    val showImageSourceChooser: Boolean = false
 )

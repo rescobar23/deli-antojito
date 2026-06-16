@@ -36,6 +36,16 @@
 - Store image file paths: rejected because the requested model explicitly uses base64.
 - Allow any image type or size: rejected because it conflicts with the clarification and increases storage risk.
 
+## Decision: Support both device selection and camera capture for product images
+
+**Rationale**: The product form action must let the user either choose an existing image from the device or take a new photo, while still enforcing the same format and size limits before persistence. The UI flow should preserve the previous image if the user cancels either source picker and should keep the form usable if permissions are denied.
+
+**Alternatives considered**:
+
+- Device gallery only: rejected because the updated requirement explicitly asks for camera capture as well.
+- Camera only: rejected because the user also needs to pick an existing image from the device.
+- Automatic image compression after capture: rejected for planning because the current requirement only states that the established size limit must be respected, not that the app should recompress images.
+
 ## Decision: Create a dedicated `:feature:product` module
 
 **Rationale**: Product management has multiple screens, independent UI state, ViewModels, validation flows and UI tests. A dedicated module matches the existing `:feature:business-config` pattern and preserves `:feature:home` as a navigation/landing area.

@@ -24,6 +24,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
@@ -46,9 +47,10 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.famessa.deli_antojito.core.ui.theme.AquaAccent
 import com.famessa.deli_antojito.core.ui.theme.AquaChip
 import com.famessa.deli_antojito.core.ui.theme.AquaDeep
@@ -66,7 +68,7 @@ fun ProductEditScreen(
     onNameChange: (String) -> Unit,
     onPriceChange: (String) -> Unit,
     onActiveChange: (Boolean) -> Unit,
-    onRemoveImage: () -> Unit,
+    onImageClick: () -> Unit,
     onSave: () -> Unit,
     onBack: () -> Unit,
     onConfirmDiscard: () -> Unit,
@@ -107,11 +109,23 @@ fun ProductEditScreen(
                     .padding(top = 26.dp, bottom = 28.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
+                state.validationMessage?.let {
+                    Text(
+                        text = it,
+                        color = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.testTag(ProductTestTags.Validation)
+                    )
+                }
+                state.errorMessage?.let {
+                    Text(text = it, color = MaterialTheme.colorScheme.error)
+                }
+
                 FormLabel("Imagen del producto")
                 ImagePickerBox(
                     image = state.img,
-                    onClick = onRemoveImage,
-                    enabled = !state.isSaving
+                    onClick = onImageClick,
+                    enabled = !state.isSaving,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
 
                 LabeledField(
@@ -142,17 +156,6 @@ fun ProductEditScreen(
                     onActiveChange = onActiveChange,
                     modifier = Modifier.testTag(ProductTestTags.ActiveSwitch)
                 )
-
-                state.validationMessage?.let {
-                    Text(
-                        text = it,
-                        color = MaterialTheme.colorScheme.error,
-                        modifier = Modifier.testTag(ProductTestTags.Validation)
-                    )
-                }
-                state.errorMessage?.let {
-                    Text(text = it, color = MaterialTheme.colorScheme.error)
-                }
 
                 Button(
                     onClick = onSave,
@@ -210,7 +213,7 @@ private fun ProductEditTopBar(title: String, onBack: () -> Unit) {
                 .clickable(onClick = onBack),
             contentAlignment = Alignment.Center
         ) {
-            BackGlyph(color = Color.White, modifier = Modifier.size(34.dp))
+            Icon(painterResource(id = com.famessa.deli_antojito.core.ui.R.drawable.ic_back), contentDescription = null, Modifier.size(34.dp), tint = Color.White)
         }
         Text(
             text = title,
@@ -219,6 +222,7 @@ private fun ProductEditTopBar(title: String, onBack: () -> Unit) {
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(start = 26.dp)
         )
+        Spacer(modifier = Modifier.weight(1f))
     }
 }
 
@@ -236,7 +240,8 @@ private fun FormLabel(text: String) {
 private fun ImagePickerBox(
     image: String?,
     onClick: () -> Unit,
-    enabled: Boolean
+    enabled: Boolean,
+    modifier: Modifier = Modifier
 ) {
     val bitmap = remember(image) {
         image?.let {
@@ -248,11 +253,11 @@ private fun ImagePickerBox(
     }
 
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(172.dp)
+        modifier = modifier
+            .size(200.dp)
             .clip(RoundedCornerShape(14.dp))
             .background(Color.White.copy(alpha = 0.4f))
+            .testTag(ProductTestTags.ImagePicker)
             .drawBehind {
                 drawRoundRect(
                     color = AquaLv1,
@@ -271,18 +276,20 @@ private fun ImagePickerBox(
             Image(
                 bitmap = bitmap.asImageBitmap(),
                 contentDescription = "Imagen del producto",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier
+                    .fillMaxSize()
             )
             Surface(
-                color = Color.White.copy(alpha = 0.86f),
+                color = Color.White.copy(alpha = 0.1f),
                 shape = RoundedCornerShape(18.dp),
-                modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 16.dp)
+                modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 8.dp)
             ) {
                 Text(
-                    text = "Quitar imagen",
+                    text = "Cambiar imagen",
                     color = AquaLv5,
                     fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
                     modifier = Modifier.padding(horizontal = 18.dp, vertical = 8.dp)
                 )
             }
@@ -297,7 +304,6 @@ private fun ImagePickerBox(
                         color = AquaLv5,
                         modifier = Modifier
                             .padding(18.dp)
-                            .fillMaxSize()
                     )
                 }
                 Text(
@@ -342,33 +348,6 @@ private fun LabeledField(
                 .fillMaxWidth()
                 .height(64.dp)
         )
-    }
-}
-
-@Composable
-private fun DescriptionField(enabled: Boolean) {
-    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        FormLabel("Descripción *")
-        Box {
-            OutlinedTextField(
-                value = "",
-                onValueChange = {},
-                enabled = enabled,
-                placeholder = { Text("Describe tu producto...", color = AquaDeep.copy(alpha = 0.42f)) },
-                leadingIcon = { FieldIconBubble(type = FieldIconType.Comment) },
-                shape = RoundedCornerShape(12.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(132.dp)
-            )
-            Text(
-                text = "0/200",
-                color = AquaDeep.copy(alpha = 0.72f),
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(end = 18.dp, bottom = 14.dp)
-            )
-        }
     }
 }
 
@@ -475,15 +454,6 @@ private enum class FieldIconType {
     Tag,
     Comment,
     Money
-}
-
-@Composable
-private fun BackGlyph(color: Color, modifier: Modifier = Modifier) {
-    Canvas(modifier = modifier) {
-        drawLine(color, Offset(size.width * 0.22f, size.height * 0.5f), Offset(size.width * 0.78f, size.height * 0.5f), strokeWidth = size.width * 0.1f, cap = androidx.compose.ui.graphics.StrokeCap.Round)
-        drawLine(color, Offset(size.width * 0.22f, size.height * 0.5f), Offset(size.width * 0.48f, size.height * 0.24f), strokeWidth = size.width * 0.1f, cap = androidx.compose.ui.graphics.StrokeCap.Round)
-        drawLine(color, Offset(size.width * 0.22f, size.height * 0.5f), Offset(size.width * 0.48f, size.height * 0.76f), strokeWidth = size.width * 0.1f, cap = androidx.compose.ui.graphics.StrokeCap.Round)
-    }
 }
 
 @Composable

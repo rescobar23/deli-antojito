@@ -20,7 +20,7 @@ class ProductEditScreenTest {
                 onNameChange = {},
                 onPriceChange = {},
                 onActiveChange = {},
-                onRemoveImage = {},
+                onImageClick = {},
                 onSave = {},
                 onBack = {},
                 onConfirmDiscard = {},
@@ -29,6 +29,7 @@ class ProductEditScreenTest {
         }
 
         composeRule.onNodeWithTag(ProductTestTags.EditScreen).assertIsDisplayed()
+        composeRule.onNodeWithTag(ProductTestTags.ImagePicker).assertIsDisplayed()
         composeRule.onNodeWithText("Agregar producto").assertIsDisplayed()
     }
 
@@ -41,7 +42,7 @@ class ProductEditScreenTest {
                 onNameChange = {},
                 onPriceChange = {},
                 onActiveChange = {},
-                onRemoveImage = {},
+                onImageClick = {},
                 onSave = {},
                 onBack = {},
                 onConfirmDiscard = {},
@@ -61,7 +62,7 @@ class ProductEditScreenTest {
                 onNameChange = {},
                 onPriceChange = {},
                 onActiveChange = {},
-                onRemoveImage = {},
+                onImageClick = {},
                 onSave = {},
                 onBack = {},
                 onConfirmDiscard = {},
