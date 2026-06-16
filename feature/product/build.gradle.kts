@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.famessa.deli_antojito.feature.product"
-    compileSdk = 37
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 25

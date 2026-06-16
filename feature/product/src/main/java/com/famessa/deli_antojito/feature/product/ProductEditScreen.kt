@@ -24,6 +24,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
@@ -46,6 +47,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -211,7 +213,7 @@ private fun ProductEditTopBar(title: String, onBack: () -> Unit) {
                 .clickable(onClick = onBack),
             contentAlignment = Alignment.Center
         ) {
-            BackGlyph(color = Color.White, modifier = Modifier.size(34.dp))
+            Icon(painterResource(id = com.famessa.deli_antojito.core.ui.R.drawable.ic_back), contentDescription = null, Modifier.size(34.dp), tint = Color.White)
         }
         Text(
             text = title,
@@ -452,15 +454,6 @@ private enum class FieldIconType {
     Tag,
     Comment,
     Money
-}
-
-@Composable
-private fun BackGlyph(color: Color, modifier: Modifier = Modifier) {
-    Canvas(modifier = modifier) {
-        drawLine(color, Offset(size.width * 0.22f, size.height * 0.5f), Offset(size.width * 0.78f, size.height * 0.5f), strokeWidth = size.width * 0.1f, cap = androidx.compose.ui.graphics.StrokeCap.Round)
-        drawLine(color, Offset(size.width * 0.22f, size.height * 0.5f), Offset(size.width * 0.48f, size.height * 0.24f), strokeWidth = size.width * 0.1f, cap = androidx.compose.ui.graphics.StrokeCap.Round)
-        drawLine(color, Offset(size.width * 0.22f, size.height * 0.5f), Offset(size.width * 0.48f, size.height * 0.76f), strokeWidth = size.width * 0.1f, cap = androidx.compose.ui.graphics.StrokeCap.Round)
-    }
 }
 
 @Composable

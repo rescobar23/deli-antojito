@@ -2,6 +2,7 @@ package com.famessa.deli_antojito.feature.home
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,7 +16,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
@@ -29,25 +29,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.famessa.deli_antojito.core.ui.theme.AquaAccent
 import com.famessa.deli_antojito.core.ui.theme.AquaChip
 import com.famessa.deli_antojito.core.ui.theme.AquaDeep
 import com.famessa.deli_antojito.core.ui.theme.AquaLv1
 import com.famessa.deli_antojito.core.ui.theme.AquaLv2
 import com.famessa.deli_antojito.core.ui.theme.AquaLv3
-import com.famessa.deli_antojito.core.ui.theme.AquaLv4
 import com.famessa.deli_antojito.core.ui.theme.AquaLv5
 import com.famessa.deli_antojito.core.ui.theme.AquaMist
 import com.famessa.deli_antojito.core.ui.theme.AquaSurface
@@ -112,7 +108,12 @@ fun HomeContent(
                         .padding(top = 34.dp, bottom = 196.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    FoodLogo(modifier = Modifier.size(128.dp))
+                    Image(
+                        painterResource(id = com.famessa.deli_antojito.core.ui.R.mipmap.ic_launcher_round),
+                        contentDescription = null,
+                        Modifier.size(128.dp),
+                    )
+
                     Spacer(modifier = Modifier.height(14.dp))
                     Text(
                         text = displayName,
@@ -122,13 +123,6 @@ fun HomeContent(
                         textAlign = TextAlign.Center,
                         modifier = Modifier.testTag("home_business_name")
                     )
-                    Text(
-                        text = "Gestión inteligente, producción eficiente.",
-                        color = AquaDeep,
-                        style = MaterialTheme.typography.titleMedium,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(top = 6.dp)
-                    )
 
                     Spacer(modifier = Modifier.height(34.dp))
                     Text(
@@ -137,13 +131,6 @@ fun HomeContent(
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center
-                    )
-                    Text(
-                        text = "Administra tu negocio de forma fácil y eficiente\n desde un solo lugar.",
-                        color = AquaDeep.copy(alpha = 0.86f),
-                        style = MaterialTheme.typography.bodyLarge,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(top = 10.dp)
                     )
 
                     Spacer(modifier = Modifier.height(34.dp))
@@ -306,76 +293,6 @@ private enum class ModuleIconType {
     Products,
     CloseSale,
     Settings
-}
-
-@Composable
-private fun FoodLogo(modifier: Modifier = Modifier) {
-    Canvas(modifier = modifier) {
-        val stroke = Stroke(width = size.minDimension * 0.025f, cap = StrokeCap.Round)
-        drawCircle(
-            brush = Brush.radialGradient(
-                colors = listOf(AquaLv2, AquaLv3),
-                center = center,
-                radius = size.minDimension * 0.58f
-            ),
-            radius = size.minDimension * 0.48f
-        )
-        drawCircle(
-            color = Color.White.copy(alpha = 0.9f),
-            radius = size.minDimension * 0.49f,
-            style = Stroke(width = size.minDimension * 0.018f)
-        )
-
-        val taco = Path().apply {
-            moveTo(size.width * 0.20f, size.height * 0.58f)
-            quadraticTo(size.width * 0.30f, size.height * 0.34f, size.width * 0.50f, size.height * 0.42f)
-            quadraticTo(size.width * 0.35f, size.height * 0.56f, size.width * 0.20f, size.height * 0.58f)
-        }
-        drawPath(taco, Color.White.copy(alpha = 0.9f), style = stroke)
-        drawLine(AquaLv5, Offset(size.width * 0.27f, size.height * 0.52f), Offset(size.width * 0.43f, size.height * 0.48f), strokeWidth = stroke.width)
-
-        repeat(5) { index ->
-            val x = size.width * (0.45f + index * 0.04f)
-            drawLine(
-                color = Color.White.copy(alpha = 0.92f),
-                start = Offset(x, size.height * 0.58f),
-                end = Offset(x + size.width * 0.03f, size.height * 0.32f),
-                strokeWidth = stroke.width * 0.82f,
-                cap = StrokeCap.Round
-            )
-        }
-
-        drawRoundRect(
-            color = Color.White.copy(alpha = 0.88f),
-            topLeft = Offset(size.width * 0.42f, size.height * 0.48f),
-            size = Size(size.width * 0.18f, size.height * 0.23f),
-            cornerRadius = androidx.compose.ui.geometry.CornerRadius(size.width * 0.02f)
-        )
-        drawLine(AquaLv5, Offset(size.width * 0.46f, size.height * 0.52f), Offset(size.width * 0.56f, size.height * 0.52f), strokeWidth = stroke.width)
-
-        val chili = Path().apply {
-            moveTo(size.width * 0.64f, size.height * 0.62f)
-            cubicTo(size.width * 0.78f, size.height * 0.34f, size.width * 0.95f, size.height * 0.5f, size.width * 0.72f, size.height * 0.72f)
-            cubicTo(size.width * 0.66f, size.height * 0.73f, size.width * 0.62f, size.height * 0.69f, size.width * 0.64f, size.height * 0.62f)
-        }
-        drawPath(chili, Color.White.copy(alpha = 0.9f), style = stroke)
-    }
-}
-
-@Composable
-private fun MenuGlyph(color: Color, modifier: Modifier = Modifier) {
-    Canvas(modifier = modifier) {
-        repeat(3) { index ->
-            val y = size.height * (0.24f + index * 0.26f)
-            drawLine(
-                color = color,
-                start = Offset(size.width * 0.08f, y),
-                end = Offset(size.width * 0.92f, y),
-                strokeWidth = size.height * 0.1f,
-                cap = StrokeCap.Round
-            )
-        }
-    }
 }
 
 @Composable
