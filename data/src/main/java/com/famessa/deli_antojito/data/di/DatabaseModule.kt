@@ -24,7 +24,8 @@ object DatabaseModule {
             AppDatabase::class.java,
             "deli_antojito_db"
         )
-            .addMigrations(AppDatabase.MIGRATION_1_2, AppDatabase.MIGRATION_2_3)
+            .addMigrations(AppDatabase.MIGRATION_1_2, AppDatabase.MIGRATION_2_3, AppDatabase.MIGRATION_3_4)
+            .addCallback(AppDatabase.CREATE_CALLBACK)
             .build()
     }
 

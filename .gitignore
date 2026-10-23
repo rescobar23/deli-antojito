@@ -24,3 +24,8 @@ Thumbs.db
 *.swp
 feature/*/build/
 
+
+build/
+.idea/
+!gradle/wrapper/gradle-wrapper.jar
+.kotlin/

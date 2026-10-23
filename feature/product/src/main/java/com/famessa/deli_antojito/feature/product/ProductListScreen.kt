@@ -30,6 +30,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import com.famessa.deli_antojito.core.ui.theme.AquaTopBar
+import com.famessa.deli_antojito.core.ui.theme.AquaSaveButton
+import com.famessa.deli_antojito.core.ui.theme.OrderIcon
+import com.famessa.deli_antojito.core.ui.theme.aquaScreenBackground
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -78,11 +82,7 @@ fun ProductListScreen(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(AquaMist, Color.White, AquaSurface)
-                )
-            )
+            .aquaScreenBackground()
             .testTag(ProductTestTags.ListScreen)
     ) {
         WaveBackground(
@@ -134,37 +134,7 @@ fun ProductListScreen(
 
 @Composable
 private fun ProductTopBar(onBack: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(104.dp)
-            .background(
-                Brush.horizontalGradient(
-                    colors = listOf(AquaDeep, AquaLv4, AquaAccent)
-                )
-            )
-            .padding(horizontal = 24.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
-            modifier = Modifier
-                .size(44.dp)
-                .clickable(onClick = onBack),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(painterResource(id = com.famessa.deli_antojito.core.ui.R.drawable.ic_home), contentDescription = null, Modifier.size(34.dp), tint = Color.White)
-        }
-        Text(
-            text = "Productos",
-            color = Color.White,
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = 28.dp)
-        )
-        //Icon(painterResource(id = com.famessa.deli_antojito.core.ui.R.drawable.ic_search), contentDescription = null, tint = Color.White, modifier = Modifier.size(42.dp))
-    }
+    AquaTopBar("Productos", onBack, navigationIcon = OrderIcon.Home, navigationDescription = "Ir al inicio")
 }
 
 @Composable

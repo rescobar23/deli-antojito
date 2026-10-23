@@ -13,6 +13,13 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
+    @Binds
+    @Singleton
+    abstract fun bindPedidoRepository(implementation: com.famessa.deli_antojito.data.repository.PedidoRepositoryImpl): com.famessa.deli_antojito.domain.repository.PedidoRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindBusinessDayProvider(implementation: com.famessa.deli_antojito.data.time.LocalBusinessDayProvider): com.famessa.deli_antojito.domain.time.BusinessDayProvider
 
     @Binds
     @Singleton

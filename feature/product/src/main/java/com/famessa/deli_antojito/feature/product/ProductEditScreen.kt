@@ -30,6 +30,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import com.famessa.deli_antojito.core.ui.theme.AquaTopBar
+import com.famessa.deli_antojito.core.ui.theme.AquaSaveButton
+import com.famessa.deli_antojito.core.ui.theme.OrderIcon
+import com.famessa.deli_antojito.core.ui.theme.aquaScreenBackground
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -78,17 +82,14 @@ fun ProductEditScreen(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(AquaMist, Color.White, AquaSurface)
-                )
-            )
+            .aquaScreenBackground()
             .testTag(ProductTestTags.EditScreen)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             ProductEditTopBar(
                 title = if (isEdit) "Editar producto" else "Agregar producto",
-                onBack = onBack
+                onBack = onBack,
+                enabled = !state.isSaving
             )
 
             if (state.isLoading) {
@@ -157,27 +158,12 @@ fun ProductEditScreen(
                     modifier = Modifier.testTag(ProductTestTags.ActiveSwitch)
                 )
 
-                Button(
-                    onClick = onSave,
+                AquaSaveButton(
+                    label = if (state.isSaving) "Guardando" else "Guardar producto",
                     enabled = !state.isSaving,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = AquaLv3,
-                        contentColor = Color.White
-                    ),
-                    shape = RoundedCornerShape(12.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(58.dp)
-                        .testTag(ProductTestTags.SaveButton)
-                ) {
-                    SaveGlyph(color = Color.White, modifier = Modifier.size(26.dp))
-                    Text(
-                        text = if (state.isSaving) "Guardando" else "Guardar producto",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(start = 14.dp)
-                    )
-                }
+                    onClick = onSave,
+                    modifier = Modifier.testTag(ProductTestTags.SaveButton)
+                )
             }
         }
     }
@@ -194,36 +180,8 @@ fun ProductEditScreen(
 }
 
 @Composable
-private fun ProductEditTopBar(title: String, onBack: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(104.dp)
-            .background(
-                Brush.horizontalGradient(
-                    colors = listOf(AquaDeep, AquaLv4, AquaAccent)
-                )
-            )
-            .padding(horizontal = 24.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
-            modifier = Modifier
-                .size(44.dp)
-                .clickable(onClick = onBack),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(painterResource(id = com.famessa.deli_antojito.core.ui.R.drawable.ic_back), contentDescription = null, Modifier.size(34.dp), tint = Color.White)
-        }
-        Text(
-            text = title,
-            color = Color.White,
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(start = 26.dp)
-        )
-        Spacer(modifier = Modifier.weight(1f))
-    }
+private fun ProductEditTopBar(title: String, onBack: () -> Unit, enabled: Boolean) {
+    AquaTopBar(title, onBack, navigationEnabled = enabled)
 }
 
 @Composable

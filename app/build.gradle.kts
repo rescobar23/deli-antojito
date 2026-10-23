@@ -9,6 +9,8 @@ plugins {
 android {
     namespace = "com.famessa.deli_antojito"
     compileSdk = 35
+    val ordersPerformance = providers.gradleProperty("ordersPerformance").orNull == "true"
+    testBuildType = if (ordersPerformance) "release" else "debug"
 
     defaultConfig {
         applicationId = "com.famessa.deli_antojito"
@@ -23,6 +25,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
+            if (ordersPerformance) signingConfig = signingConfigs.getByName("debug")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -51,9 +54,13 @@ android {
 }
 
 dependencies {
+    if (providers.gradleProperty("ordersPerformance").orNull == "true") {
+        add("releaseImplementation", libs.androidx.ui.test.manifest)
+    }
     implementation(project(":feature:home"))
     implementation(project(":feature:business-config"))
     implementation(project(":feature:product"))
+    implementation(project(":feature:orders"))
     implementation(project(":core:ui"))
     implementation(project(":core:network"))
     implementation(project(":core:common"))
@@ -74,6 +81,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.room.runtime)
+    androidTestImplementation(libs.androidx.room.ktx)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
