@@ -1,0 +1,12 @@
+<resources>
+    <string name="batch_title">Cierre de Lote</string>
+    <string name="batch_notice">Consulta preliminar. El cierre definitivo estará disponible cuando se registren pagos.</string>
+    <string name="batch_rule">Pedidos completados por fecha de creación</string>
+    <string name="batch_unavailable">No disponible</string>
+    <string name="batch_unavailable_reason">Aún no se registran pagos y descuentos</string>
+    <string name="batch_not_collected">No representa cobros confirmados</string>
+    <string name="batch_retry">Actualizar consulta</string>
+    <string name="batch_empty">No hay pedidos completados en este período.</string>
+    <string name="batch_read_error">No se pudo consultar. Intenta nuevamente.</string>
+    <string name="batch_data_error">No se puede calcular la consulta porque hay datos de pedidos inconsistentes.</string>
+</resources>

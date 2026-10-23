@@ -9,6 +9,7 @@ sealed interface MainDestination {
     data object Home : MainDestination
     data object Products : MainDestination
     data object Orders : MainDestination
+    data object BatchClosing : MainDestination
     data object Config : MainDestination
     data class ProductEdit(val id: Long) : MainDestination
     data class OrderDetail(val id: Long) : MainDestination
@@ -20,6 +21,7 @@ internal fun decodeDestination(value: String): MainDestination {
     return when (parts.firstOrNull()) {
         "products" -> MainDestination.Products
         "orders" -> MainDestination.Orders
+        "close" -> MainDestination.BatchClosing
         "config" -> MainDestination.Config
         "product" -> parts.getOrNull(1)?.toLongOrNull()?.let { MainDestination.ProductEdit(it) } ?: MainDestination.Products
         "detail" -> parts.getOrNull(1)?.toLongOrNull()?.let { MainDestination.OrderDetail(it) } ?: MainDestination.Orders

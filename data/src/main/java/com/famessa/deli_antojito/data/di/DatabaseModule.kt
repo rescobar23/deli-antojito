@@ -15,6 +15,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
+    /** Supplies the existing order DAO without changing its schema. */
+    @Provides @Singleton
+    fun providePedidoDao(database: AppDatabase): com.famessa.deli_antojito.data.dao.PedidoDao = database.pedidoDao()
+
 
     @Provides
     @Singleton

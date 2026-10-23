@@ -16,6 +16,14 @@ data class PedidoAggregate(
 /** Local SQL operations; business writes must be composed in a Room transaction by the repository. */
 @Dao
 interface PedidoDao {
+    /** Reads a consistent minimal snapshot by current state and half-open creation time; never writes. */
+    @Query("""SELECT p.id AS pedidoId, p.fecha_creacion AS fechaCreacion, p.total_centavos AS totalCentavos,
+        d.id AS lineaId, d.producto_id AS productoId, d.nombre_producto AS nombre, d.cantidad AS cantidad,
+        d.precio_unitario_centavos AS precioCentavos, d.subtotal_centavos AS subtotalCentavos, d.posicion AS posicion
+        FROM pedidos p LEFT JOIN pedido_detalle d ON d.pedido_id=p.id
+        WHERE p.estado='COMPLETADO' AND p.fecha_creacion>=:inicio AND p.fecha_creacion<:finExclusivo
+        ORDER BY p.id, d.posicion, d.id""")
+    suspend fun readCierreRows(inicio: Long, finExclusivo: Long): List<CierreConsultaRow>
     /** Observes headers in stable creation/id order, without loading catalog images. */
     @Query("SELECT * FROM pedidos ORDER BY fecha_creacion DESC, id DESC")
     fun observeHeaders(): Flow<List<Pedido>>

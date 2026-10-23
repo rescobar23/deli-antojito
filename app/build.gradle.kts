@@ -61,6 +61,7 @@ dependencies {
     implementation(project(":feature:business-config"))
     implementation(project(":feature:product"))
     implementation(project(":feature:orders"))
+    implementation(project(":feature:batch-closing"))
     implementation(project(":core:ui"))
     implementation(project(":core:network"))
     implementation(project(":core:common"))

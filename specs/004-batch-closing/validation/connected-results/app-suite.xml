@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name="com.famessa.deli_antojito.BatchClosingNavigationTest" tests="9" failures="0" errors="0" skipped="2" time="22.622" timestamp="2026-10-23T19:27:56" hostname="localhost">
+  <properties>
+    <property name="device" value="TB330FU - 15" />
+    <property name="flavor" value="" />
+    <property name="project" value=":app" />
+  </properties>
+  <testcase name="homeCardOpensDistinctDestination" classname="com.famessa.deli_antojito.BatchClosingNavigationTest" time="2.756" />
+  <testcase name="thousandOrdersWithTenLinesRenderWithinBudget" classname="com.famessa.deli_antojito.BatchClosingPerformanceTest" time="1.091">
+    <skipped />
+  </testcase>
+  <testcase name="useAppContext" classname="com.famessa.deli_antojito.ExampleInstrumentedTest" time="0.009" />
+  <testcase name="existingConfigurationShowsHomeContent" classname="com.famessa.deli_antojito.MainActivityExistingConfigTest" time="1.456" />
+  <testcase name="modulesStayOpenFromHomeCardsAndBottomNavigation" classname="com.famessa.deli_antojito.MainActivityModuleNavigationTest" time="10.33" />
+  <testcase name="noConfigurationStartupShowsRegistration" classname="com.famessa.deli_antojito.MainActivityStartupTest" time="1.26" />
+  <testcase name="homeOrdersCardTriggersOrderDestination" classname="com.famessa.deli_antojito.OrdersNavigationTest" time="1.452" />
+  <testcase name="thousandOrdersMeetReadAndSearchBudgetsInRelease" classname="com.famessa.deli_antojito.OrdersPerformanceTest" time="1.178">
+    <skipped />
+  </testcase>
+  <testcase name="backStackRestoresDetailIdentityAndParentList" classname="com.famessa.deli_antojito.OrdersRestorationTest" time="1.371" />
+</testsuite>

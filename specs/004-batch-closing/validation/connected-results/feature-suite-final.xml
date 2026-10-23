@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name="com.famessa.deli_antojito.feature.batchclosing.BatchClosingAccessibilityTest" tests="9" failures="0" errors="0" skipped="0" time="17.16" timestamp="2026-10-23T19:47:47" hostname="localhost">
+  <properties>
+    <property name="device" value="TB330FU - 15" />
+    <property name="flavor" value="" />
+    <property name="project" value=":feature:batch-closing" />
+  </properties>
+  <testcase name="labelsSurviveLargeTextAndCompactWidth" classname="com.famessa.deli_antojito.feature.batchclosing.BatchClosingAccessibilityTest" time="2.078" />
+  <testcase name="wideNormalTextRetainsFinancialAvailabilityLabels" classname="com.famessa.deli_antojito.feature.batchclosing.BatchClosingAccessibilityTest" time="0.965" />
+  <testcase name="unavailableIsNotMoneyOrAnExecutableClose" classname="com.famessa.deli_antojito.feature.batchclosing.BatchClosingAvailabilityTest" time="1.885" />
+  <testcase name="editorShowsSecondsAndCancelKeepsSelection" classname="com.famessa.deli_antojito.feature.batchclosing.BatchClosingPeriodTest" time="2.517" />
+  <testcase name="loadingHasNoStaleGross" classname="com.famessa.deli_antojito.feature.batchclosing.BatchClosingPeriodTest" time="1.575" />
+  <testcase name="emptyAndRetry" classname="com.famessa.deli_antojito.feature.batchclosing.BatchClosingPeriodTest" time="1.344" />
+  <testcase name="invalidPeriodExplainsErrorWithoutGross" classname="com.famessa.deli_antojito.feature.batchclosing.BatchClosingPeriodTest" time="1.412" />
+  <testcase name="editedSecondsStillAllowExplicitAmbiguousOffsetChoice" classname="com.famessa.deli_antojito.feature.batchclosing.BatchClosingPeriodTest" time="2.449" />
+  <testcase name="historicalRankingRendersTogether" classname="com.famessa.deli_antojito.feature.batchclosing.BatchClosingTopProductsTest" time="1.467" />
+</testsuite>

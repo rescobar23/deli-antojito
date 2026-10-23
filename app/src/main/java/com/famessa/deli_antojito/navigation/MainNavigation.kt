@@ -27,7 +27,7 @@ import com.famessa.deli_antojito.core.ui.theme.*
     fun back() { navigation.back() }
     fun section(value: String) { navigation.section(value) }
     val current = decodeDestination(stack.last())
-    val main = current == MainDestination.Home || current == MainDestination.Products || current == MainDestination.Orders
+    val main = current == MainDestination.Home || current == MainDestination.Products || current == MainDestination.Orders || current == MainDestination.BatchClosing
     BackHandler(enabled = stack.size > 1 && current !is MainDestination.OrderForm) { back() }
     Scaffold(bottomBar = {
         if (main) NavigationBar(containerColor = Color.White) {
@@ -38,8 +38,8 @@ import com.famessa.deli_antojito.core.ui.theme.*
                 Triple("close", "Cierre de lote", OrderIcon.Archive),
                 Triple("config", "Configuración", OrderIcon.Settings)
             ).forEach { (route, label, icon) ->
-                val selected = route != "close" && current == decodeDestination(route)
-                NavigationBarItem(selected = selected, enabled = route != "close",
+                val selected = current == decodeDestination(route)
+                NavigationBarItem(selected = selected, enabled = true,
                     onClick = { if (route == "config") go(route) else section(route) },
                     colors = NavigationBarItemDefaults.colors(selectedIconColor = AquaLv4, selectedTextColor = AquaLv4,
                         indicatorColor = Color.Transparent, unselectedIconColor = Color(0xFF66717B), unselectedTextColor = Color(0xFF66717B)),
@@ -54,7 +54,8 @@ import com.famessa.deli_antojito.core.ui.theme.*
         }
     }) { padding -> Box(Modifier.padding(padding).fillMaxSize()) {
         when (current) {
-            MainDestination.Home -> HomeView(onAdminClick = { go("config") }, onProductClick = { section("products") }, onOrdersClick = { section("orders") }, onOpenOrder = { go("detail:$it") })
+            MainDestination.Home -> HomeView(onAdminClick = { go("config") }, onProductClick = { section("products") }, onOrdersClick = { section("orders") }, onBatchClosingClick = { section("close") }, onOpenOrder = { go("detail:$it") })
+            MainDestination.BatchClosing -> com.famessa.deli_antojito.feature.batchclosing.BatchClosingRoute(onBack = { section("home") })
             MainDestination.Products -> ProductListRoute(onAddProduct = { go("product:0") }, onEditProduct = { go("product:$it") }, onBack = { section("home") })
             MainDestination.Config -> BusinessConfigRoute(isInitialSetup = false, onSaved = { back() }, onCancel = { back() })
             is MainDestination.ProductEdit -> key(stack.last()) { ProductEditRoute(productId = current.id, onSaved = { back() }, onCancel = { back() }) }

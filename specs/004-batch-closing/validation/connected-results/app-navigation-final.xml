@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name="com.famessa.deli_antojito.MainActivityModuleNavigationTest" tests="2" failures="0" errors="0" skipped="0" time="15.813" timestamp="2026-10-23T19:48:51" hostname="localhost">
+  <properties>
+    <property name="device" value="TB330FU - 15" />
+    <property name="flavor" value="" />
+    <property name="project" value=":app" />
+  </properties>
+  <testcase name="modulesStayOpenFromHomeCardsAndBottomNavigation" classname="com.famessa.deli_antojito.MainActivityModuleNavigationTest" time="12.431" />
+  <testcase name="homeCardOpensDistinctDestination" classname="com.famessa.deli_antojito.BatchClosingNavigationTest" time="1.606" />
+</testsuite>

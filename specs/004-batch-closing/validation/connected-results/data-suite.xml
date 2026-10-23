@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name="com.famessa.deli_antojito.data.DAO.ConfiguracionDaoTest" tests="34" failures="0" errors="0" skipped="0" time="3.927" timestamp="2026-10-23T19:20:22" hostname="localhost">
+  <properties>
+    <property name="device" value="TB330FU - 15" />
+    <property name="flavor" value="" />
+    <property name="project" value=":data" />
+  </properties>
+  <testcase name="oneRowCanBeSavedAndRead" classname="com.famessa.deli_antojito.data.DAO.ConfiguracionDaoTest" time="0.024" />
+  <testcase name="zeroRowsAreObservable" classname="com.famessa.deli_antojito.data.DAO.ConfiguracionDaoTest" time="0.0" />
+  <testcase name="upsertReplacesSingletonRow" classname="com.famessa.deli_antojito.data.DAO.ConfiguracionDaoTest" time="0.001" />
+  <testcase name="duplicateRowsCanBeDetectedWhenDatabaseIsCorrupt" classname="com.famessa.deli_antojito.data.DAO.ConfiguracionDaoTest" time="0.001" />
+  <testcase name="physicallyDeletesProduct" classname="com.famessa.deli_antojito.data.DAO.ProductoDaoTest" time="0.001" />
+  <testcase name="insertsAndListsProducts" classname="com.famessa.deli_antojito.data.DAO.ProductoDaoTest" time="0.001" />
+  <testcase name="findsDuplicateNameIgnoringCaseAndSpaces" classname="com.famessa.deli_antojito.data.DAO.ProductoDaoTest" time="0.001" />
+  <testcase name="updateAllowsSameIdNameReuse" classname="com.famessa.deli_antojito.data.DAO.ProductoDaoTest" time="0.076" />
+  <testcase name="freshAndMigratedSchemasHaveSameColumnsAndIndices" classname="com.famessa.deli_antojito.data.DB.PedidoMigrationTest" time="0.072" />
+  <testcase name="enforcesUniquenessAndHistoricalForeignKeys" classname="com.famessa.deli_antojito.data.DB.PedidoMigrationTest" time="0.02" />
+  <testcase name="migratesEverySupportedVersionWithoutLosingExistingData" classname="com.famessa.deli_antojito.data.DB.PedidoMigrationTest" time="0.15" />
+  <testcase name="repeatedAndConcurrentSubmissionsHaveOneIdentityPerToken" classname="com.famessa.deli_antojito.data.Repository.PedidoCreateContractTest" time="0.089" />
+  <testcase name="distinctConcurrentOrdersAndExhaustedSequenceNeverRepeatNumbers" classname="com.famessa.deli_antojito.data.Repository.PedidoCreateContractTest" time="0.093" />
+  <testcase name="sameProductAndPriceMergeButDistinctHistoricalPricesStaySeparate" classname="com.famessa.deli_antojito.data.Repository.PedidoCreateContractTest" time="0.047" />
+  <testcase name="confirmedOrderAndTokenSurviveDatabaseReopen" classname="com.famessa.deli_antojito.data.Repository.PedidoCreateContractTest" time="0.124" />
+  <testcase name="failingLinesRollBackHeaderAndSequence" classname="com.famessa.deli_antojito.data.Repository.PedidoCreateContractTest" time="0.056" />
+  <testcase name="deletedNewProductIsUnavailable" classname="com.famessa.deli_antojito.data.Repository.PedidoCreateContractTest" time="0.097" />
+  <testcase name="dailyFixtureMatchesFiveTwoOneOneAndExcludesYesterday" classname="com.famessa.deli_antojito.data.Repository.PedidoDailySummaryContractTest" time="0.175" />
+  <testcase name="includesCancelledInTotalAndUsesCreationInsteadOfTransitionTime" classname="com.famessa.deli_antojito.data.Repository.PedidoDailySummaryContractTest" time="0.066" />
+  <testcase name="missingAndCorruptOrdersAreExplicitReadOutcomes" classname="com.famessa.deli_antojito.data.Repository.PedidoReadContractTest" time="0.057" />
+  <testcase name="ordersByCreationThenIdAndKeepsDetail" classname="com.famessa.deli_antojito.data.Repository.PedidoReadContractTest" time="0.088" />
+  <testcase name="unicodeLiteralAndIntersectingFiltersAreConsistent" classname="com.famessa.deli_antojito.data.Repository.PedidoSearchContractTest" time="0.093" />
+  <testcase name="failedHistoryInsertRollsBackState" classname="com.famessa.deli_antojito.data.Repository.PedidoStateContractTest" time="0.066" />
+  <testcase name="persistsAuthorizedHistoryAndRejectsTerminalReopening" classname="com.famessa.deli_antojito.data.Repository.PedidoStateContractTest" time="0.078" />
+  <testcase name="rejectsForeignLinesAndOnlyOneConcurrentEditOrTransitionCommits" classname="com.famessa.deli_antojito.data.Repository.PedidoUpdateContractTest" time="0.081" />
+  <testcase name="failedReplacementPreservesWholePreviousVersion" classname="com.famessa.deli_antojito.data.Repository.PedidoUpdateContractTest" time="0.079" />
+  <testcase name="historicalPriceSurvivesCatalogDeletionAndConflictingEditIsRejected" classname="com.famessa.deli_antojito.data.Repository.PedidoUpdateContractTest" time="0.056" />
+  <testcase name="missingLinesIsError" classname="com.famessa.deli_antojito.data.cierre.CierreConsultaRepositoryTest" time="0.031" />
+  <testcase name="completedByCreationWithExclusiveEnd" classname="com.famessa.deli_antojito.data.cierre.CierreConsultaRepositoryTest" time="0.106" />
+  <testcase name="concurrentChangesNeverMixSummaryAndProducts" classname="com.famessa.deli_antojito.data.cierre.CierreHistoricalProductsTest" time="0.174" />
+  <testcase name="snapshotDoesNotNeedCatalogAndStateRefreshUsesCreation" classname="com.famessa.deli_antojito.data.cierre.CierreHistoricalProductsTest" time="0.065" />
+  <testcase name="historicalDataSurvivesDatabaseReopen" classname="com.famessa.deli_antojito.data.cierre.CierreHistoricalProductsTest" time="0.084" />
+  <testcase name="queryingCannotMutateAnyTable" classname="com.famessa.deli_antojito.data.cierre.CierreReadOnlyTest" time="0.052" />
+  <testcase name="timerAndResumeRefreshPublishNewDayAndCollectionCleansUp" classname="com.famessa.deli_antojito.data.time.PedidoDayObserverTest" time="0.072" />
+</testsuite>

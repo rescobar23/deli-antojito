@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name="com.famessa.deli_antojito.data.cierre.CierreHistoricalProductsTest" tests="3" failures="0" errors="0" skipped="0" time="1.342" timestamp="2026-10-23T19:38:21" hostname="localhost">
+  <properties>
+    <property name="device" value="TB330FU - 15" />
+    <property name="flavor" value="" />
+    <property name="project" value=":data" />
+  </properties>
+  <testcase name="concurrentChangesNeverMixSummaryAndProducts" classname="com.famessa.deli_antojito.data.cierre.CierreHistoricalProductsTest" time="0.303" />
+  <testcase name="snapshotDoesNotNeedCatalogAndStateRefreshUsesCreation" classname="com.famessa.deli_antojito.data.cierre.CierreHistoricalProductsTest" time="0.03" />
+  <testcase name="historicalDataSurvivesDatabaseReopen" classname="com.famessa.deli_antojito.data.cierre.CierreHistoricalProductsTest" time="0.109" />
+</testsuite>

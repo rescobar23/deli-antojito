@@ -30,3 +30,5 @@ include(":feature:home")
 include(":feature:business-config")
 include(":feature:product")
 include(":feature:orders")
+
+include(":feature:batch-closing")

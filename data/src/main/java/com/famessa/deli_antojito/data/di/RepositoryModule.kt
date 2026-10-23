@@ -13,6 +13,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
+    @Binds @Singleton
+    abstract fun bindCierreReader(implementation: com.famessa.deli_antojito.data.repository.CierreConsultaRepositoryImpl): com.famessa.deli_antojito.domain.repository.CierreConsultaRepository
+    @Binds @Singleton
+    abstract fun bindCierreTime(implementation: com.famessa.deli_antojito.data.time.LocalCierreDateTimeResolver): com.famessa.deli_antojito.domain.time.CierreDateTimeResolver
     @Binds
     @Singleton
     abstract fun bindPedidoRepository(implementation: com.famessa.deli_antojito.data.repository.PedidoRepositoryImpl): com.famessa.deli_antojito.domain.repository.PedidoRepository

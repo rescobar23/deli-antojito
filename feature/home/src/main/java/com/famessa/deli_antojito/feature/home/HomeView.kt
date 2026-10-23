@@ -39,13 +39,14 @@ fun HomeView(
     onAdminClick: () -> Unit = {},
     onProductClick: () -> Unit = {},
     onOrdersClick: () -> Unit = {},
+    onBatchClosingClick: () -> Unit = {},
     onOpenOrder: (Long) -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val businessName by viewModel.businessName.collectAsState()
     val state by viewModel.dashboardState.collectAsState()
     HomeContent(businessName, onAdminClick, onProductClick, onOrdersClick, state,
-        onOpenOrder, viewModel::retryOrders, viewModel::retrySummary)
+        onOpenOrder, viewModel::retryOrders, viewModel::retrySummary, onBatchClosingClick = onBatchClosingClick)
 }
 
 @Composable
@@ -57,7 +58,8 @@ fun HomeContent(
     state: HomeDashboardState = HomeDashboardState(),
     onOpenOrder: (Long) -> Unit = {},
     onRetryOrders: () -> Unit = {},
-    onRetrySummary: () -> Unit = {}
+    onRetrySummary: () -> Unit = {},
+    onBatchClosingClick: () -> Unit = {}
 ) {
     var menu by remember { mutableStateOf(false) }
     Column(Modifier.fillMaxSize().background(Color(0xFFFAFCFC)).testTag("home_screen")) {
@@ -67,13 +69,14 @@ fun HomeContent(
             DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
                 DropdownMenuItem(text = { Text("Productos") }, onClick = { menu = false; onProductClick() })
                 DropdownMenuItem(text = { Text("Pedidos") }, onClick = { menu = false; onOrdersClick() })
+                DropdownMenuItem(text = { Text("Cierre de Lote") }, onClick = { menu = false; onBatchClosingClick() })
                 DropdownMenuItem(text = { Text("Configuración") }, onClick = { menu = false; onAdminClick() },
                     modifier = Modifier.testTag("home_business_config_menu_item"))
             }
         }
         LazyColumn(Modifier.fillMaxSize().testTag("home_dashboard_list"), contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             item { WelcomeBanner() }
-            item { ModuleGrid(onProductClick, onOrdersClick, onAdminClick) }
+            item { ModuleGrid(onProductClick, onOrdersClick, onAdminClick, onBatchClosingClick) }
             item {
                 DashboardSection {
                     Row(Modifier.fillMaxWidth().padding(start = 16.dp, end = 8.dp, top = 8.dp, bottom = 8.dp),
@@ -121,13 +124,13 @@ private fun WelcomeBanner() {
 }
 
 @Composable
-private fun ModuleGrid(onProductClick: () -> Unit, onOrdersClick: () -> Unit, onAdminClick: () -> Unit) {
+private fun ModuleGrid(onProductClick: () -> Unit, onOrdersClick: () -> Unit, onAdminClick: () -> Unit, onBatchClosingClick: () -> Unit) {
     BoxWithConstraints {
         val modules = listOf(
             HomeModule("Productos", "Administra tu catálogo", com.famessa.deli_antojito.core.ui.R.drawable.ic_products, onProductClick, "home_products_button"),
             HomeModule("Configuración", "Configura tu negocio", com.famessa.deli_antojito.core.ui.R.drawable.ic_settings, onAdminClick, "home_business_config_button"),
             HomeModule("Pedidos", "Revisa y gestiona pedidos", com.famessa.deli_antojito.core.ui.R.drawable.ic_orders, onOrdersClick, "home_orders_button"),
-            HomeModule("Cierre de Lote", "Registra el cierre del día", com.famessa.deli_antojito.core.ui.R.drawable.ic_batch_close, null, "home_close_button")
+            HomeModule("Cierre de Lote", "Consulta preliminar de pedidos", com.famessa.deli_antojito.core.ui.R.drawable.ic_batch_close, onBatchClosingClick, "home_close_button")
         )
         val columns = if (maxWidth >= 320.dp) 2 else 1
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {

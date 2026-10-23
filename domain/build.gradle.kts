@@ -52,3 +52,17 @@ tasks.register<JacocoReport>("ordersDomainCoverage") {
         html.required.set(true)
     }
 }
+
+// Dedicated report: historical query domain behavior exercised directly and through its ViewModel.
+tasks.register<JacocoReport>("batchClosingDomainCoverage") {
+    dependsOn(":domain:testDebugUnitTest", ":feature:batch-closing:testDebugUnitTest")
+    executionData.setFrom(files(
+        layout.buildDirectory.file("outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec"),
+        rootProject.layout.projectDirectory.file("feature/batch-closing/build/outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec")
+    ))
+    classDirectories.setFrom(fileTree(layout.buildDirectory.dir("tmp/kotlin-classes/debug")) {
+        include("**/model/cierre/**", "**/usecase/cierre/**", "**/time/Cierre*")
+    })
+    sourceDirectories.setFrom(files("src/main/java"))
+    reports { xml.required.set(true); html.required.set(true) }
+}

@@ -26,7 +26,8 @@ class MainActivityModuleNavigationTest {
 
         for ((label, route, screen) in listOf(
             Triple("Productos", "products", "product_list_screen"),
-            Triple("Pedidos", "orders", "orders_screen")
+            Triple("Pedidos", "orders", "orders_screen"),
+            Triple("Cierre de Lote", "close", "batch_closing_screen")
         )) {
             compose.onNode(hasText(label) and hasAnyAncestor(hasTestTag("home_screen")))
                 .performScrollTo().performClick()
