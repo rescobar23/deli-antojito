@@ -1,340 +1,270 @@
 package com.famessa.deli_antojito.feature.home
 
-import android.annotation.SuppressLint
-import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.famessa.deli_antojito.core.ui.theme.AquaChip
-import com.famessa.deli_antojito.core.ui.theme.AquaDeep
-import com.famessa.deli_antojito.core.ui.theme.AquaLv1
-import com.famessa.deli_antojito.core.ui.theme.AquaLv2
-import com.famessa.deli_antojito.core.ui.theme.AquaLv3
-import com.famessa.deli_antojito.core.ui.theme.AquaLv5
-import com.famessa.deli_antojito.core.ui.theme.AquaMist
-import com.famessa.deli_antojito.core.ui.theme.AquaSurface
+import com.famessa.deli_antojito.core.ui.theme.*
+import com.famessa.deli_antojito.domain.model.*
+import java.math.BigDecimal
+import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
+
+private val HomeInk = Color(0xFF273744)
+private val HomeMuted = Color(0xFF697580)
+private val HomeBorder = Color(0xFFE7EBED)
 
 @Composable
 fun HomeView(
     onAdminClick: () -> Unit = {},
     onProductClick: () -> Unit = {},
+    onOrdersClick: () -> Unit = {},
+    onOpenOrder: (Long) -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val businessName by viewModel.businessName.collectAsState()
-
-    HomeContent(
-        businessName = businessName,
-        onAdminClick = onAdminClick,
-        onProductClick = onProductClick
-    )
+    val state by viewModel.dashboardState.collectAsState()
+    HomeContent(businessName, onAdminClick, onProductClick, onOrdersClick, state,
+        onOpenOrder, viewModel::retryOrders, viewModel::retrySummary)
 }
 
-@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun HomeContent(
     businessName: String,
     onAdminClick: () -> Unit = {},
-    onProductClick: () -> Unit = {}
+    onProductClick: () -> Unit = {},
+    onOrdersClick: () -> Unit = {},
+    state: HomeDashboardState = HomeDashboardState(),
+    onOpenOrder: (Long) -> Unit = {},
+    onRetryOrders: () -> Unit = {},
+    onRetrySummary: () -> Unit = {}
 ) {
-    val displayName = businessName.ifBlank {
-        "Deli Antojito"
+    var menu by remember { mutableStateOf(false) }
+    Column(Modifier.fillMaxSize().background(Color(0xFFFAFCFC)).testTag("home_screen")) {
+        Box(Modifier.testTag("home_business_name")) {
+            AquaTopBar(businessName.ifBlank { "Deli Antojito" }, { menu = true },
+                navigationIcon = OrderIcon.Menu, navigationDescription = "Abrir menú")
+            DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
+                DropdownMenuItem(text = { Text("Productos") }, onClick = { menu = false; onProductClick() })
+                DropdownMenuItem(text = { Text("Pedidos") }, onClick = { menu = false; onOrdersClick() })
+                DropdownMenuItem(text = { Text("Configuración") }, onClick = { menu = false; onAdminClick() },
+                    modifier = Modifier.testTag("home_business_config_menu_item"))
+            }
+        }
+        LazyColumn(Modifier.fillMaxSize().testTag("home_dashboard_list"), contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            item { WelcomeBanner() }
+            item { ModuleGrid(onProductClick, onOrdersClick, onAdminClick) }
+            item {
+                DashboardSection {
+                    Row(Modifier.fillMaxWidth().padding(start = 16.dp, end = 8.dp, top = 8.dp, bottom = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically) {
+                        Text("Pedidos recientes", Modifier.weight(1f), style = MaterialTheme.typography.titleLarge,
+                            color = HomeInk, fontWeight = FontWeight.Bold)
+                        TextButton(onClick = onOrdersClick) {
+                            Text("Ver todos", color = AquaLv4)
+                            OrderUiIcon(OrderIcon.Chevron, modifier = Modifier.size(18.dp), tint = AquaLv4)
+                        }
+                    }
+                    when {
+                        state.ordersError != null -> {
+                            Text(state.ordersError, Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.error)
+                            TextButton(onClick = onRetryOrders) { Text("Reintentar pedidos") }
+                        }
+                        state.loadingOrders -> LinearProgressIndicator(Modifier.fillMaxWidth(), color = AquaLv4)
+                        state.recentOrders.isEmpty() -> Text("Aún no hay pedidos registrados.", Modifier.padding(16.dp), color = HomeMuted)
+                    }
+                    state.recentOrders.forEach { order ->
+                        HorizontalDivider(Modifier.padding(horizontal = 16.dp), color = HomeBorder)
+                        RecentOrderRow(order) { onOpenOrder(order.id) }
+                    }
+                }
+            }
+            item { DailySummary(state, onRetrySummary) }
+        }
     }
+}
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(AquaMist, Color.White, AquaSurface)
-                )
-            )
-            .testTag("home_screen")
-    ) {
-        WaveBackground(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .height(230.dp)
+@Composable
+private fun WelcomeBanner() {
+    Box(Modifier.fillMaxWidth().heightIn(min = 180.dp).clip(RoundedCornerShape(8.dp))) {
+        Image(painterResource(R.drawable.home_welcome), contentDescription = null,
+            contentScale = ContentScale.Crop, alignment = Alignment.CenterEnd,
+            modifier = Modifier.matchParentSize())
+        Box(Modifier.matchParentSize().background(Brush.horizontalGradient(listOf(
+            Color(0xFFEAF6F5), Color(0xFFEAF6F5).copy(alpha = 0.85f), Color.Transparent))))
+        Column(Modifier.fillMaxWidth(0.68f).padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Text("¡Bienvenido!", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold, color = AquaLv5)
+            Text("Gestiona tus productos, pedidos y negocio desde un solo lugar.",
+                style = MaterialTheme.typography.bodyLarge, color = HomeMuted)
+        }
+    }
+}
+
+@Composable
+private fun ModuleGrid(onProductClick: () -> Unit, onOrdersClick: () -> Unit, onAdminClick: () -> Unit) {
+    BoxWithConstraints {
+        val modules = listOf(
+            HomeModule("Productos", "Administra tu catálogo", com.famessa.deli_antojito.core.ui.R.drawable.ic_products, onProductClick, "home_products_button"),
+            HomeModule("Configuración", "Configura tu negocio", com.famessa.deli_antojito.core.ui.R.drawable.ic_settings, onAdminClick, "home_business_config_button"),
+            HomeModule("Pedidos", "Revisa y gestiona pedidos", com.famessa.deli_antojito.core.ui.R.drawable.ic_orders, onOrdersClick, "home_orders_button"),
+            HomeModule("Cierre de Lote", "Registra el cierre del día", com.famessa.deli_antojito.core.ui.R.drawable.ic_batch_close, null, "home_close_button")
         )
-
-        Column(modifier = Modifier.fillMaxSize()) {
-            //HomeTopBar()
-
-            BoxWithConstraints(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 24.dp)
-            ) {
-                val cardSpacing = if (maxWidth < 380.dp) 16.dp else 20.dp
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 34.dp, bottom = 196.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Image(
-                        painterResource(id = com.famessa.deli_antojito.core.ui.R.mipmap.ic_launcher_round),
-                        contentDescription = null,
-                        Modifier.size(128.dp),
-                    )
-
-                    Spacer(modifier = Modifier.height(14.dp))
-                    Text(
-                        text = displayName,
-                        color = AquaLv5,
-                        style = MaterialTheme.typography.headlineLarge,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.testTag("home_business_name")
-                    )
-
-                    Spacer(modifier = Modifier.height(34.dp))
-                    Text(
-                        text = "¡Bienvenido!",
-                        color = AquaLv5,
-                        style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center
-                    )
-
-                    Spacer(modifier = Modifier.height(34.dp))
-                    ModuleGrid(
-                        cardSpacing = cardSpacing,
-                        onAdminClick = onAdminClick,
-                        onProductClick = onProductClick
-                    )
+        val columns = if (maxWidth >= 320.dp) 2 else 1
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            modules.chunked(columns).forEach { row ->
+                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    row.forEach { module -> ModuleCard(module, Modifier.weight(1f)) }
                 }
             }
         }
     }
 }
-/*
-@Composable
-private fun HomeTopBar() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(94.dp)
-            .background(
-                Brush.horizontalGradient(
-                    colors = listOf(AquaDeep, AquaLv4, AquaAccent)
-                )
-            )
-            .padding(start = 22.dp),
-        contentAlignment = Alignment.CenterStart
-    ) {
-        MenuGlyph(color = Color.White, modifier = Modifier.size(34.dp))
-    }
-}
-*/
-@Composable
-private fun ModuleGrid(
-    cardSpacing: androidx.compose.ui.unit.Dp,
-    onAdminClick: () -> Unit,
-    onProductClick: () -> Unit
-) {
-    Column(verticalArrangement = Arrangement.spacedBy(cardSpacing)) {
-        Row(horizontalArrangement = Arrangement.spacedBy(cardSpacing)) {
-            ModuleCard(
-                title = "Pedidos",
-                description = "Administra tus pedidos",
-                icon = ModuleIconType.Orders,
-                onClick = null,
-                modifier = Modifier.weight(1f)
-            )
-            ModuleCard(
-                title = "Productos",
-                description = "Administra tus productos",
-                icon = ModuleIconType.Products,
-                onClick = onProductClick,
-                modifier = Modifier
-                    .weight(1f)
-                    .testTag("home_products_button")
-            )
-        }
-        Row(horizontalArrangement = Arrangement.spacedBy(cardSpacing)) {
-            ModuleCard(
-                title = "Cierre de venta",
-                description = "Finaliza el dia de ventas",
-                icon = ModuleIconType.CloseSale,
-                onClick = null,
-                modifier = Modifier.weight(1f)
-            )
-            ModuleCard(
-                title = "Configuración",
-                description = "Configura tu negocio",
-                icon = ModuleIconType.Settings,
-                onClick = onAdminClick,
-                modifier = Modifier
-                    .weight(1f)
-                    .testTag("home_business_config_button")
-            )
-        }
-    }
-}
+
+private data class HomeModule(val name: String, val subtitle: String, val icon: Int, val onClick: (() -> Unit)?, val tag: String)
 
 @Composable
-private fun ModuleCard(
-    title: String,
-    description: String,
-    icon: ModuleIconType,
-    onClick: (() -> Unit)?,
-    modifier: Modifier = Modifier
-) {
-    val shape = RoundedCornerShape(20.dp)
-    val surfaceModifier = modifier
-        .height(180.dp)
-        .shadow(
-            elevation = 7.dp,
-            shape = shape,
-            ambientColor = AquaDeep.copy(alpha = 0.16f),
-            spotColor = AquaDeep.copy(alpha = 0.18f)
-        )
-
-    val content: @Composable () -> Unit = {
-        Box(modifier = Modifier.fillMaxSize()) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 14.dp, vertical = 18.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                when(icon){
-                    ModuleIconType.Orders -> Icon(painterResource(id = com.famessa.deli_antojito.core.ui.R.drawable.ic_orders), contentDescription = null, Modifier.size(70.dp), tint = AquaLv3.copy())
-                    ModuleIconType.Products -> Icon(painterResource(id = com.famessa.deli_antojito.core.ui.R.drawable.ic_products), contentDescription = null, Modifier.size(70.dp), tint = AquaLv3.copy())
-                    ModuleIconType.CloseSale -> Icon(painterResource(id = com.famessa.deli_antojito.core.ui.R.drawable.ic_batch_close), contentDescription = null, Modifier.size(70.dp), tint = AquaLv3.copy())
-                    ModuleIconType.Settings -> Icon(painterResource(id = com.famessa.deli_antojito.core.ui.R.drawable.ic_settings), contentDescription = null, Modifier.size(70.dp), tint = AquaLv3.copy())
+private fun ModuleCard(module: HomeModule, modifier: Modifier) {
+    Surface(onClick = { module.onClick?.invoke() }, enabled = module.onClick != null,
+        modifier = modifier.testTag(module.tag), shape = RoundedCornerShape(8.dp),
+        color = Color.White, border = BorderStroke(1.dp, HomeBorder), shadowElevation = 1.dp) {
+        BoxWithConstraints {
+            val compact = maxWidth < 220.dp
+            if (compact) {
+                Column(Modifier.heightIn(min = 148.dp).padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                        ModuleIcon(module.icon)
+                        Spacer(Modifier.weight(1f))
+                        OrderUiIcon(OrderIcon.Chevron, modifier = Modifier.size(18.dp), tint = HomeMuted)
+                    }
+                    Text(module.name, color = HomeInk, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                    Text(module.subtitle, color = HomeMuted, style = MaterialTheme.typography.bodySmall)
                 }
-
-                Spacer(modifier = Modifier.height(12.dp))
-                Text(
-                    text = title,
-                    color = AquaLv5,
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center,
-                    maxLines = 1
-                )
-                Text(
-                    text = description,
-                    color = AquaDeep.copy(alpha = 0.82f),
-                    style = MaterialTheme.typography.bodyMedium,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(top = 6.dp)
-                )
+            } else {
+                Row(Modifier.heightIn(min = 84.dp).padding(12.dp), verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    ModuleIcon(module.icon)
+                    Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                        Text(module.name, color = HomeInk, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                        Text(module.subtitle, color = HomeMuted, style = MaterialTheme.typography.bodySmall)
+                    }
+                    OrderUiIcon(OrderIcon.Chevron, modifier = Modifier.size(18.dp), tint = if (module.onClick == null) Color(0xFFB0B9BE) else HomeInk)
+                }
             }
-            ChevronGlyph(
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .padding(end = 14.dp)
-                    .size(24.dp),
-                color = AquaLv5.copy(alpha = if (onClick == null) 0.52f else 1f)
-            )
         }
-    }
-
-    if (onClick == null) {
-        Surface(
-            modifier = surfaceModifier,
-            shape = shape,
-            color = Color.White.copy(alpha = 0.92f),
-            content = content
-        )
-    } else {
-        Surface(
-            onClick = onClick,
-            modifier = surfaceModifier,
-            shape = shape,
-            color = Color.White.copy(alpha = 0.94f),
-            content = content
-        )
-    }
-}
-
-private enum class ModuleIconType {
-    Orders,
-    Products,
-    CloseSale,
-    Settings
-}
-
-@Composable
-private fun ChevronGlyph(modifier: Modifier = Modifier, color: Color) {
-    Canvas(modifier = modifier) {
-        drawLine(
-            color = color,
-            start = Offset(size.width * 0.32f, size.height * 0.18f),
-            end = Offset(size.width * 0.68f, size.height * 0.50f),
-            strokeWidth = size.width * 0.14f,
-            cap = StrokeCap.Round
-        )
-        drawLine(
-            color = color,
-            start = Offset(size.width * 0.68f, size.height * 0.50f),
-            end = Offset(size.width * 0.32f, size.height * 0.82f),
-            strokeWidth = size.width * 0.14f,
-            cap = StrokeCap.Round
-        )
     }
 }
 
 @Composable
-private fun WaveBackground(modifier: Modifier = Modifier) {
-    Canvas(modifier = modifier) {
-        fun wavePath(top: Float, leftDip: Float, rightDip: Float) = Path().apply {
-            moveTo(0f, size.height * top)
-            cubicTo(
-                size.width * 0.25f,
-                size.height * leftDip,
-                size.width * 0.48f,
-                size.height * rightDip,
-                size.width,
-                size.height * (top - 0.12f)
-            )
-            lineTo(size.width, size.height)
-            lineTo(0f, size.height)
-            close()
-        }
+private fun ModuleIcon(icon: Int) {
+    Surface(shape = CircleShape, color = Color(0xFFE7F3F2), modifier = Modifier.size(48.dp)) {
+        Icon(painterResource(icon), contentDescription = null, tint = AquaLv4, modifier = Modifier.padding(12.dp))
+    }
+}
 
-        drawPath(wavePath(0.18f, 0.32f, 0.7f), AquaChip.copy(alpha = 0.58f))
-        drawPath(wavePath(0.46f, 0.86f, 0.34f), AquaLv1.copy(alpha = 0.78f))
-        drawPath(wavePath(0.74f, 1.04f, 0.58f), AquaLv3.copy(alpha = 0.88f))
+@Composable
+private fun DashboardSection(content: @Composable ColumnScope.() -> Unit) {
+    Surface(Modifier.fillMaxWidth(), shape = RoundedCornerShape(8.dp), color = Color.White,
+        border = BorderStroke(1.dp, HomeBorder)) { Column(content = content) }
+}
+
+private data class HomeStatus(val label: String, val icon: OrderIcon, val foreground: Color, val background: Color)
+private fun EstadoPedido.presentation(): HomeStatus = when (this) {
+    EstadoPedido.PENDIENTE -> HomeStatus("Pendiente", OrderIcon.Clock, Color(0xFFB87400), Color(0xFFFFF0D4))
+    EstadoPedido.EN_PREPARACION -> HomeStatus("En preparación", OrderIcon.Chef, Color(0xFF005CD6), Color(0xFFE0EDFF))
+    EstadoPedido.COMPLETADO -> HomeStatus("Completado", OrderIcon.Check, Color(0xFF008A16), Color(0xFFE3F5E9))
+    EstadoPedido.CANCELADO -> HomeStatus("Cancelado", OrderIcon.Cancel, Color(0xFFD51C2B), Color(0xFFFFDFE2))
+}
+
+@Composable
+private fun RecentOrderRow(order: PedidoResumen, onClick: () -> Unit) {
+    val status = order.estado.presentation()
+    Row(Modifier.fillMaxWidth().clickable(onClick = onClick).testTag("home_order_${order.id}").padding(12.dp),
+        verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        Surface(Modifier.size(44.dp), shape = CircleShape, color = status.background) {
+            OrderUiIcon(status.icon, modifier = Modifier.padding(10.dp), tint = status.foreground)
+        }
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Text("#" + order.numero.toString().padStart(5, '0'), color = HomeInk, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleMedium)
+            Text(order.cliente, color = HomeInk, style = MaterialTheme.typography.bodyMedium)
+            Text(SimpleDateFormat("d MMM yyyy • HH:mm", Locale("es", "MX")).format(Date(order.fechaCreacion)),
+                color = HomeMuted, style = MaterialTheme.typography.labelSmall)
+        }
+        Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Surface(shape = RoundedCornerShape(6.dp), color = status.background) {
+                Text(status.label, Modifier.padding(horizontal = 8.dp, vertical = 5.dp), color = status.foreground, style = MaterialTheme.typography.labelSmall)
+            }
+            Text(NumberFormat.getCurrencyInstance(Locale("es", "MX")).format(BigDecimal.valueOf(order.total.centavos, 2)),
+                color = AquaLv4, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleMedium)
+        }
+        OrderUiIcon(OrderIcon.Chevron, modifier = Modifier.size(18.dp), tint = HomeInk)
+    }
+}
+
+@Composable
+private fun DailySummary(state: HomeDashboardState, retry: () -> Unit) {
+    DashboardSection {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                Text("Resumen del día", Modifier.weight(1f), color = HomeInk, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                state.summary?.fecha?.let { day ->
+                    val date = Calendar.getInstance().apply { clear(); set(day.year, day.month - 1, day.day) }.time
+                    Text(SimpleDateFormat("d MMM yyyy", Locale("es", "MX")).format(date), color = HomeMuted, style = MaterialTheme.typography.bodySmall)
+                }
+            }
+            when {
+                state.summaryError != null -> {
+                    Text(state.summaryError, color = MaterialTheme.colorScheme.error)
+                    TextButton(onClick = retry) { Text("Reintentar resumen") }
+                }
+                state.summary == null -> LinearProgressIndicator(Modifier.fillMaxWidth(), color = AquaLv4)
+                else -> BoxWithConstraints {
+                    val columns = if (maxWidth >= 600.dp) 4 else 2
+                    val counts = state.summary.conteos
+                    val metrics = listOf(
+                        Triple("Pedidos totales", counts.totalPedidos, HomeStatus("", OrderIcon.Orders, AquaLv4, Color(0xFFEEF7F7))),
+                        Triple("Pendientes", counts.pendientes, EstadoPedido.PENDIENTE.presentation()),
+                        Triple("En preparación", counts.enPreparacion, EstadoPedido.EN_PREPARACION.presentation()),
+                        Triple("Completados", counts.completados, EstadoPedido.COMPLETADO.presentation())
+                    )
+                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                        metrics.chunked(columns).forEach { row ->
+                            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                                row.forEach { (label, count, status) ->
+                                    Surface(Modifier.weight(1f), shape = RoundedCornerShape(6.dp), color = status.background.copy(alpha = 0.5f)) {
+                                        Row(Modifier.heightIn(min = 92.dp).padding(10.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                                            OrderUiIcon(status.icon, modifier = Modifier.size(28.dp), tint = status.foreground)
+                                            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                                                Text(count.toString(), style = MaterialTheme.typography.titleLarge, color = HomeInk, fontWeight = FontWeight.Bold)
+                                                Text(label, style = MaterialTheme.typography.labelSmall, color = HomeMuted)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

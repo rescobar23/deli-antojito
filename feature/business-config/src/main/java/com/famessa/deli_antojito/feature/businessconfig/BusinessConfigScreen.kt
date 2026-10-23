@@ -25,6 +25,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import com.famessa.deli_antojito.core.ui.theme.AquaTopBar
+import com.famessa.deli_antojito.core.ui.theme.AquaSaveButton
+import com.famessa.deli_antojito.core.ui.theme.OrderIcon
+import com.famessa.deli_antojito.core.ui.theme.aquaScreenBackground
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -75,16 +79,12 @@ fun BusinessConfigScreen(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(AquaMist, Color.White, AquaSurface)
-                )
-            )
+            .aquaScreenBackground()
             .semantics { contentDescription = "Pantalla de configuracion del negocio" }
             .testTag(BusinessConfigTestTags.Screen)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
-            BusinessConfigTopBar(onCancel = onCancel)
+            BusinessConfigTopBar(onCancel = onCancel, state = state)
 
             if (state.isLoading) {
                 Box(
@@ -101,8 +101,8 @@ fun BusinessConfigScreen(
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
                     .padding(horizontal = 24.dp)
-                    .padding(top = 24.dp, bottom = 28.dp),
-                verticalArrangement = Arrangement.spacedBy(22.dp)
+                    .padding(top = 26.dp, bottom = 28.dp),
+                verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
                 IntroCard()
 
@@ -143,27 +143,12 @@ fun BusinessConfigScreen(
 
                 Spacer(modifier = Modifier.height(18.dp))
 
-                Button(
-                    onClick = onSave,
+                AquaSaveButton(
+                    label = if (state.isSaving) "Guardando" else "Guardar cambios",
                     enabled = !state.isSaving && !state.isInvalidLocalData,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = AquaLv3,
-                        contentColor = Color.White
-                    ),
-                    shape = RoundedCornerShape(12.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(60.dp)
-                        .testTag(BusinessConfigTestTags.SaveButton)
-                ) {
-                    SaveGlyph(color = Color.White, modifier = Modifier.size(26.dp))
-                    Text(
-                        text = if (state.isSaving) "Guardando" else "Guardar cambios",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(start = 14.dp)
-                    )
-                }
+                    onClick = onSave,
+                    modifier = Modifier.testTag(BusinessConfigTestTags.SaveButton)
+                )
 
                 if (state.errorMessage != null || state.isInvalidLocalData) {
                     TextButton(
@@ -180,35 +165,10 @@ fun BusinessConfigScreen(
 }
 
 @Composable
-private fun BusinessConfigTopBar(onCancel: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(104.dp)
-            .background(
-                Brush.horizontalGradient(
-                    colors = listOf(AquaDeep, AquaLv4, AquaAccent)
-                )
-            )
-            .padding(horizontal = 24.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
-            modifier = Modifier
-                .size(44.dp)
-                .clickable(onClick = onCancel),
-            contentAlignment = Alignment.Center
-        ) {
-            BackGlyph(color = Color.White, modifier = Modifier.size(34.dp))
-        }
-        Text(
-            text = "Configuración",
-            color = Color.White,
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(start = 26.dp)
-        )
-    }
+private fun BusinessConfigTopBar(onCancel: () -> Unit, state: BusinessConfigUiState) {
+    AquaTopBar("Configuración", if (state.isInitialSetup) null else onCancel,
+        navigationEnabled = !state.isSaving,
+        navigationModifier = Modifier.testTag(BusinessConfigTestTags.CancelButton))
 }
 
 @Composable
@@ -277,6 +237,7 @@ private fun BusinessNameField(
             .fillMaxWidth()
             .height(64.dp)
             .testTag(BusinessConfigTestTags.NameInput),
+        shape = RoundedCornerShape(12.dp),
         placeholder = { Text("Mi Negocio", color = AquaDeep.copy(alpha = 0.42f)) },
         singleLine = true,
         enabled = enabled,
